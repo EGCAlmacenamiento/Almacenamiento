@@ -1,0 +1,55 @@
+package services;
+
+import java.util.Collection;
+
+import javax.transaction.Transactional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
+
+import repositories.WarehouseRepository;
+import security.Authority;
+import security.LoginService;
+import security.UserAccount;
+import domain.Warehouse;
+
+@Service
+@Transactional
+public class WarehouseService {
+	// Managed Repository ------------------------------
+	@Autowired
+	private WarehouseRepository warehouseRepository;
+	
+	// Supporting Services -----------------------------
+	
+	
+	// Constructors ------------------------------------
+	public WarehouseService(){
+		super();
+	}
+	
+	
+	// Simple CRUD Methods -----------------------------
+	public Warehouse create(){
+		return new Warehouse();
+	}
+	
+	public Collection<Warehouse> findAll(){
+		return warehouseRepository.findAll();
+	}
+	
+	public Warehouse findOne(int warehouseId){
+		return warehouseRepository.findOne(warehouseId);
+	}
+
+	public void save(Warehouse warehouse){
+		UserAccount user = LoginService.getPrincipal();
+		Assert.isTrue(user.getUsername().equals(Authority.ADMIN));
+		warehouseRepository.save(warehouse);
+	}
+	
+	// Other Business Methods ---------------------------
+	
+	
+}

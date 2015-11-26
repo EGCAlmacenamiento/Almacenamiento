@@ -1,0 +1,81 @@
+package services;
+
+
+import java.util.Collection;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
+
+import repositories.ConsumerRepository;
+import security.Authority;
+import security.LoginService;
+import security.UserAccount;
+import domain.Consumer;
+
+@Service
+@Transactional
+public class ConsumerService {
+	// Managed Repository ------------------------------
+	@Autowired
+	private ConsumerRepository consumerRepository;
+
+	// Supporting Services -----------------------------
+
+	// Constructors ------------------------------------
+	public ConsumerService() {
+		super();
+	}
+
+	// Simple CRUD Methods -----------------------------
+	public Consumer create() {
+		return new Consumer();
+	}
+	
+	public Consumer getConsumerById(int consumerId){
+		return consumerRepository.findOne(consumerId);
+	}
+
+	// REQ 10.1
+	// Register to the system as a consumer
+	
+	// REQ 11.1
+	// Do the same as a user who is not authenticated, except for registering to the system.
+
+	public void save(Consumer consumer) {
+		// Checkeamos si el usuario actual es Admin
+		boolean isAdmin = LoginService.getPrincipal().getAuthorities().contains(Authority.ADMIN);
+		
+		// Comprobamos que no sea consumidor por requisito 11.1
+		Assert.isTrue(!LoginService.getPrincipal().getAuthorities().contains(Authority.CONSUMER));
+
+		// Obtenemos el actual UserAccount y añadimos el Authority Consumer
+		UserAccount userAccount = consumer.getUserAccount();
+
+		// Si el usuario actual es Admin, simplemente añadimos el rol de CONSUMER.
+		// En el caso de que sea Admin, debemos dejarlo como está, dado que él está permitido a dar de alta Clerks por ejemplo
+		if (!isAdmin)
+			for (Authority a : Authority.listAuthorities())
+				userAccount.removeAuthority(a);
+
+		// Creamos el Authority Consumer
+		Authority authConsumer = new Authority();
+		authConsumer.setAuthority(Authority.CONSUMER);
+
+		// Añadimos el Authority como único
+		userAccount.addAuthority(authConsumer);
+
+		// Guardamos en base de datos el consumer
+		consumerRepository.save(consumer);
+	}
+	
+	// REQ 12.5
+	// List the consumers that are registered in the system.
+	public Collection<Consumer> findAll(){
+		UserAccount user = LoginService.getPrincipal();
+		Assert.isTrue(user.getUsername().equals(Authority.ADMIN));
+		return consumerRepository.findAll();
+	}
+	// Other Business Methods ---------------------------
+}

@@ -1,0 +1,22 @@
+# messages.properties
+#
+# Copyright (C) 2013 Universidad de Sevilla
+# 
+# The use of this project is hereby constrained to the conditions of the 
+# TDG Licence, a copy of which you may download from 
+# http://www.tdg-seville.info/License.html
+
+administrator.orderList	= List of orders
+
+administrator.dashboard.consumersMoreOrders	= Consumer(s) who have placed more orders
+administrator.dashboard.consumersMostMoney	= Consumer(s) who have spent most money
+administrator.dashboard.bestSellingItems 	= Best-Selling item(s)
+administrator.dashboard.worstSellingItems	= Worst-Selling item(s)
+administrator.dashboard.clerksMoreOrders 	= Clerk(s) who have served and delivered more orders
+administrator.dashboard.clerksLessOrders	= Clerk(s) who have served and delivered less orders
+administrator.dashboard.consumersMoreCancells = Consumer(s) who have cancelled more orders
+administrator.dashboard.consumersLessCancells = Consumer(s) who have cancelled less orders
+administrator.dashboard.cancelledOrderRatio = Ratio of orders cancelled this month
+
+administrator.dashboard.ordersPlaced = orders placed
+administrator.dashboard.spent = spent

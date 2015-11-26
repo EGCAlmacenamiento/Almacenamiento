@@ -1,0 +1,1311 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- 
+ * PopulateDatabase.xml
+ *
+ * Copyright (C) 2014 Universidad de Sevilla
+ * 
+ * The use of this project is hereby constrained to the conditions of the 
+ * TDG Licence, a copy of which you may download from 
+ * http://www.tdg-seville.info/License.html
+ -->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	">
+	
+	<!-- User accounts -->
+
+	<bean id="userAccountAdmin1" class="security.UserAccount">
+		<property name="username" value="admin1" />
+		<property name="password" value="passAdmin1" />
+		
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="ADMIN" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="userAccountAdmin2" class="security.UserAccount">
+		<property name="username" value="admin2" />
+		<property name="password" value="passAdmin2" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="ADMIN" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="userAccountConsumer1" class="security.UserAccount">
+		<property name="username" value="consumer1" />
+		<property name="password" value="passConsumer1" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="CONSUMER" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	
+	<bean id="userAccountConsumer2" class="security.UserAccount">
+		<property name="username" value="consumer2" />
+		<property name="password" value="passConsumer2" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="CONSUMER" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+		
+	<bean id="userAccountConsumer3" class="security.UserAccount">
+		<property name="username" value="consumer3" />
+		<property name="password" value="passConsumer3" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="CONSUMER" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+				
+	<bean id="userAccountClerk1" class="security.UserAccount">
+		<property name="username" value="clerk1" />
+		<property name="password" value="passClerk1" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="CLERK" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+					
+	<bean id="userAccountClerk2" class="security.UserAccount">
+		<property name="username" value="clerk2" />
+		<property name="password" value="passClerk2" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="CLERK" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+					
+	<bean id="userAccountClerk3" class="security.UserAccount">
+		<property name="username" value="clerk3" />
+		<property name="password" value="passClerk3" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="CLERK" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- Admins -->
+	
+	<bean id="admin1" class="domain.Administrator">
+		<property name="name" value="adminis" />
+		<property name="surname" value="trator 1" />
+		<property name="email" value="admin1@acme-supermarket.com" />
+		<property name="phone" value="600000001" />
+		<property name="userAccount" ref="userAccountAdmin1" />
+	</bean>
+	
+	<bean id="admin2" class="domain.Administrator">
+		<property name="name" value="adminis" />
+		<property name="surname" value="trator 2" />
+		<property name="email" value="admin2@acme-supermarket.com" />
+		<property name="phone" value="600000002" />
+		<property name="userAccount" ref="userAccountAdmin2" />
+	</bean>
+	
+	<!-- Shopping carts -->
+	
+	<bean id="shoppingCart1" class="domain.ShoppingCart">
+		<property name="comments">
+			<list>
+				<value>Cart 1 comment 1</value>
+				<value>Cart 1 comment 2</value>
+			</list>
+		</property>
+		
+		<property name="itemQuantityCart">
+			<list>
+				<ref bean="Cart1Item1" />
+				<ref bean="Cart1Item2" />
+				<ref bean="Cart1Item3" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="shoppingCart2" class="domain.ShoppingCart">
+		<property name="comments">
+			<list>
+				<value>Cart 2 comment 1</value>
+			</list>
+		</property>
+		
+		<property name="itemQuantityCart">
+			<list>
+				<ref bean="Cart2Item1" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="shoppingCart3" class="domain.ShoppingCart">
+		<property name="comments">
+			<list></list>
+		</property>
+		
+		<property name="itemQuantityCart">
+			<list>
+				<ref bean="Cart3Item1" />
+				<ref bean="Cart3Item2" />
+			</list>
+		</property>
+	</bean>
+	
+	<!-- Clerks -->
+	
+	<bean id="clerk1" class="domain.Clerk">
+		<property name="userAccount" ref="userAccountClerk1" />
+		<property name="name" value="cle" />
+		<property name="surname" value="rk 1" />
+		<property name="email" value="clerk1@acme-supermarket.com" />
+		<property name="phone" value="620000001" />
+		
+		<property name="deliveredOrders" value="2"/>
+		<property name="orders">
+			<list>
+				<ref bean="order1"/>
+				<ref bean="order3"/>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="clerk2" class="domain.Clerk">
+		<property name="userAccount" ref="userAccountClerk2" />
+		<property name="name" value="cle" />
+		<property name="surname" value="rk 2" />
+		<property name="email" value="clerk2@acme-supermarket.com" />
+		<property name="phone" value="620000002" />
+		
+		<property name="deliveredOrders" value="0"/>
+		<property name="orders">
+			<list></list>
+		</property>
+	</bean>
+	
+		<bean id="clerk3" class="domain.Clerk">
+		<property name="userAccount" ref="userAccountClerk3" />
+		<property name="name" value="cle" />
+		<property name="surname" value="rk 3" />
+		<property name="email" value="clerk3@acme-supermarket.com" />
+		<property name="phone" value="620000003" />
+		
+		<property name="deliveredOrders" value="0"/>
+		<property name="orders">
+			<list>
+				<ref bean="order4"/>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- Consumers -->
+
+	<bean id="consumer1" class="domain.Consumer">
+		<property name="name" value="consu" />
+		<property name="surname" value="mer 1" />
+		<property name="email" value="consumer1@acme-supermarket.com" />
+		<property name="phone" value="610000001" />
+		<property name="userAccount" ref="userAccountConsumer1" />
+		
+		<property name="totalOrders" value="0" />
+		<property name="cancelledOrders" value="0" />
+		<property name="spentMoney">
+			<bean class="domain.Money">
+				<property name="currency" value="Euro"/>
+				<property name="amount" value="0.00"/>
+			</bean>
+		</property>
+		
+		<property name="shoppingCart" ref="shoppingCart1"/>
+		<property name="orders">
+			<list></list>
+		</property>
+	</bean>
+
+	<bean id="consumer2" class="domain.Consumer">
+		<property name="name" value="consu" />
+		<property name="surname" value="mer 2" />
+		<property name="email" value="consumer2@acme-supermarket.com" />
+		<property name="phone" value="610000002" />
+		<property name="userAccount" ref="userAccountConsumer2" />
+		
+		<property name="totalOrders" value="2" />
+		<property name="cancelledOrders" value="0" />
+		<property name="spentMoney">
+			<bean class="domain.Money">
+				<property name="currency" value="Euro"/>
+				<property name="amount" value="10.00"/>
+			</bean>
+		</property>
+		
+		<property name="shoppingCart" ref="shoppingCart2"/>
+		<property name="orders">
+			<list>
+				<ref bean="order1"/>
+				<ref bean="order2"/>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="consumer3" class="domain.Consumer">
+		<property name="name" value="consu" />
+		<property name="surname" value="mer 3" />
+		<property name="email" value="consumer3@acme-supermarket.com" />
+		<property name="phone" value="610000003" />
+		<property name="userAccount" ref="userAccountConsumer3" />
+		
+		<property name="totalOrders" value="2" />
+		<property name="cancelledOrders" value="1" />
+		<property name="spentMoney">
+			<bean class="domain.Money">
+				<property name="currency" value="Euro"/>
+				<property name="amount" value="5.00"/>
+			</bean>
+		</property>
+		
+		<property name="shoppingCart" ref="shoppingCart3"/>
+		<property name="orders">
+			<list>
+				<ref bean="order3"/>
+				<ref bean="order4"/>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- Orders -->
+	
+	<bean id="order1" class="domain.Order">
+		<property name="ticker" value="121212-abcd"/>
+		<property name="placementMoment" value="10/10/2013 13:37"/>
+		<property name="comments">
+			<list>
+				<value>Comment 1 order 1</value>
+				<value>Comment 2 order 1</value>
+			</list>
+		</property>
+		<property name="consumerName" value="consumer2" />
+		<property name="address" value="Sample Avenue 1, 13-37" />
+		<property name="creditCard">
+			<bean class="domain.CreditCard">
+				<property name="holderName" value="consumer 2"/>
+				<property name="brandName" value="VISA"/>
+				<property name="number" value="5528838185627242"/>
+				<property name="expirationMonth" value="05"/>
+				<property name="expirationYear" value="2016"/>
+				<property name="cvvCode" value="222"/>
+			</bean>
+		</property>
+		<property name="deliveryMoment" value="12/12/2013 01:00"/>
+		<property name="cancellationMoment"><null/></property>
+	
+		<property name="consumer" ref="consumer2"/>
+		<property name="clerk" ref="clerk1"/>
+		<property name="orderedItems">
+			<list>
+				<ref bean="orderedItem1Order1"/>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="order2" class="domain.Order">
+		<property name="ticker" value="123210-zzzz"/>
+		<property name="placementMoment" value="11/11/2011 13:40"/>
+		<property name="comments">
+			<list>
+				<value>Comment 1 order 2</value>
+			</list>
+		</property>
+		<property name="consumerName" value="consumer2" />
+		<property name="address" value="Sample Avenue 1, 13-37" />
+		<property name="creditCard">
+			<bean class="domain.CreditCard">
+				<property name="holderName" value="consumer 2"/>
+				<property name="brandName" value="VISA"/>
+				<property name="number" value="5528838185627242"/>
+				<property name="expirationMonth" value="05"/>
+				<property name="expirationYear" value="2016"/>
+				<property name="cvvCode" value="222"/>
+			</bean>
+		</property>
+		<property name="deliveryMoment" value="12/12/2011 12:00"/>
+		<property name="cancellationMoment"><null/></property>
+	
+		<property name="consumer" ref="consumer2"/>
+		<property name="clerk"><null/></property>
+		<property name="orderedItems">
+			<list>
+				<ref bean="orderedItem1Order2"/>
+				<ref bean="orderedItem2Order2"/>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="order3" class="domain.Order">
+		<property name="ticker" value="999888-asdf"/>
+		<property name="placementMoment" value="03/10/2015 04:20"/>
+		<property name="comments">
+			<list>
+				<value>Comment 1 order 3</value>
+				<value>Comment 2 order 3</value>
+				<value>Comment 3 order 3</value>
+			</list>
+		</property>
+		<property name="consumerName" value="consumer3" />
+		<property name="address" value="Random street 4" />
+		<property name="creditCard">
+			<bean class="domain.CreditCard">
+				<property name="holderName" value="consumer 3"/>
+				<property name="brandName" value="MASTERCARD"/>
+				<property name="number" value="5323942947855054"/>
+				<property name="expirationMonth" value="07"/>
+				<property name="expirationYear" value="2018"/>
+				<property name="cvvCode" value="987"/>
+			</bean>
+		</property>
+		<property name="deliveryMoment" value="04/10/15 12:00"/>
+		<property name="cancellationMoment"><null/></property>
+	
+		<property name="consumer" ref="consumer3"/>
+		<property name="clerk" ref="clerk1"/>
+		<property name="orderedItems">
+			<list>
+				<ref bean="orderedItem1Order3"/>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="order4" class="domain.Order">
+		<property name="ticker" value="778866-qwer"/>
+		<property name="placementMoment" value="11/01/2015 02:00"/>
+		<property name="comments">
+			<list>
+				<value>This order is cancelled</value>
+			</list>
+		</property>
+		<property name="consumerName" value="consumer3" />
+		<property name="address" value="Random street 4" />
+		<property name="creditCard">
+			<bean class="domain.CreditCard">
+				<property name="holderName" value="consumer 3"/>
+				<property name="brandName" value="MASTERCARD"/>
+				<property name="number" value="5323942947855054"/>
+				<property name="expirationMonth" value="07"/>
+				<property name="expirationYear" value="2018"/>
+				<property name="cvvCode" value="987"/>
+			</bean>
+		</property>
+		<property name="deliveryMoment"><null/></property>
+		<property name="cancellationMoment" value="11/01/2015 10:00"/>
+	
+		<property name="consumer" ref="consumer3"/>
+		<property name="clerk" ref="clerk3"/>
+		<property name="orderedItems">
+			<list>
+				<ref bean="orderedItem1Order4"/>
+				<ref bean="orderedItem2Order4"/>
+				<ref bean="orderedItem3Order4"/>
+				<ref bean="orderedItem4Order4"/>
+				<ref bean="orderedItem5Order4"/>
+				<ref bean="orderedItem6Order4"/>
+				<ref bean="orderedItem7Order4"/>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- OrderedItems -->
+	
+	<bean id="orderedItem1Order1" class="domain.OrderedItem">
+		<property name="quantity" value="2" />
+		<property name="sku" value="ab-1234" />
+		<property name="name" value="USB cable" />
+		<property name="description" value="Standard USB cable" />
+		<property name="picture" value="http://acme-supermarket.com/usb-cable.png" />
+		<property name="price">
+			<bean class="domain.Money">
+				<property name="currency" value="Euro" />
+				<property name="amount" value="3.00" />
+			</bean>
+		</property>
+		<property name="categoryName" value="Electronics" />
+		<property name="taxName" value="Standard VAT" />
+		<property name="taxAmount" value="0.21" />
+		<property name="served" value="true" />
+		
+		<property name="order" ref="order1" />
+	</bean>
+	
+	<bean id="orderedItem1Order2" class="domain.OrderedItem">
+		<property name="quantity" value="1" />
+		<property name="sku" value="12-3456" />
+		<property name="name" value="SD reader" />
+		<property name="description" value="SD card reader" />
+		<property name="picture" value="http://acme-supermarket.com/sd-reader.png" />
+		<property name="price">
+			<bean class="domain.Money">
+				<property name="currency" value="Euro" />
+				<property name="amount" value="1.50" />
+			</bean>
+		</property>
+		<property name="categoryName" value="Electronics" />
+		<property name="taxName" value="Standard VAT" />
+		<property name="taxAmount" value="0.21" />
+		<property name="served" value="true" />
+		
+		<property name="order" ref="order2" />
+	</bean>
+		
+	<bean id="orderedItem2Order2" class="domain.OrderedItem">
+		<property name="quantity" value="1" />
+		<property name="sku" value="99-8877" />
+		<property name="name" value="SD card" />
+		<property name="description" value="SD memory card" />
+		<property name="picture"><null/></property>
+		<property name="price">
+			<bean class="domain.Money">
+				<property name="currency" value="Euro" />
+				<property name="amount" value="2.50" />
+			</bean>
+		</property>
+		<property name="categoryName" value="Electronics" />
+		<property name="taxName" value="Standard VAT" />
+		<property name="taxAmount" value="0.21" />
+		<property name="served" value="true" />
+		
+		<property name="order" ref="order2" />
+	</bean>
+	
+	<bean id="orderedItem1Order3" class="domain.OrderedItem">
+		<property name="quantity" value="1" />
+		<property name="sku" value="42-0blz" />
+		<property name="name" value="Cat food" />
+		<property name="description" value="Standard cat food" />
+		<property name="picture" value="http://acme-supermarket.com/cat-food.png"/>
+		<property name="price">
+			<bean class="domain.Money">
+				<property name="currency" value="Euro" />
+				<property name="amount" value="5.00" />
+			</bean>
+		</property>
+		<property name="categoryName" value="Animals" />
+		<property name="taxName" value="Reduced VAT" />
+		<property name="taxAmount" value="0.10" />
+		<property name="served" value="true" />
+		
+		<property name="order" ref="order3" />
+	</bean>
+	
+	<bean id="orderedItem1Order4" class="domain.OrderedItem">
+		<property name="quantity" value="1" />
+		<property name="sku" value="13-3337" />
+		<property name="name" value="A Game Of Thrones" />
+		<property name="description" value="by George R.R. Martin" />
+		<property name="picture" value="http://acme-supermarket.com/ice-fire-1.png" />
+		<property name="price">
+			<bean class="domain.Money">
+				<property name="currency" value="Euro" />
+				<property name="amount" value="10.00" />
+			</bean>
+		</property>
+		<property name="categoryName" value="Books" />
+		<property name="taxName" value="Standard VAT" />
+		<property name="taxAmount" value="0.21" />
+		<property name="served" value="false" />
+		
+		<property name="order" ref="order4" />
+	</bean>
+	
+	<bean id="orderedItem2Order4" class="domain.OrderedItem">
+		<property name="quantity" value="1" />
+		<property name="sku" value="13-3338" />
+		<property name="name" value="A Clash Of Kings" />
+		<property name="description" value="by George R.R. Martin" />
+		<property name="picture" value="http://acme-supermarket.com/ice-fire-2.png" />
+		<property name="price">
+			<bean class="domain.Money">
+				<property name="currency" value="Euro" />
+				<property name="amount" value="10.00" />
+			</bean>
+		</property>
+		<property name="categoryName" value="Books" />
+		<property name="taxName" value="Standard VAT" />
+		<property name="taxAmount" value="0.21" />
+		<property name="served" value="false" />
+		
+		<property name="order" ref="order4" />
+	</bean>
+	
+	<bean id="orderedItem3Order4" class="domain.OrderedItem">
+		<property name="quantity" value="1" />
+		<property name="sku" value="13-3339" />
+		<property name="name" value="A Storm Of Swords" />
+		<property name="description" value="by George R.R. Martin" />
+		<property name="picture" value="http://acme-supermarket.com/ice-fire-3.png" />
+		<property name="price">
+			<bean class="domain.Money">
+				<property name="currency" value="Euro" />
+				<property name="amount" value="10.00" />
+			</bean>
+		</property>
+		<property name="categoryName" value="Books" />
+		<property name="taxName" value="Standard VAT" />
+		<property name="taxAmount" value="0.21" />
+		<property name="served" value="false" />
+		
+		<property name="order" ref="order4" />
+	</bean>
+	
+	<bean id="orderedItem4Order4" class="domain.OrderedItem">
+		<property name="quantity" value="1" />
+		<property name="sku" value="13-3340" />
+		<property name="name" value="A Feast For Crows" />
+		<property name="description" value="by George R.R. Martin" />
+		<property name="picture" value="http://acme-supermarket.com/ice-fire-4.png" />
+		<property name="price">
+			<bean class="domain.Money">
+				<property name="currency" value="Euro" />
+				<property name="amount" value="10.00" />
+			</bean>
+		</property>
+		<property name="categoryName" value="Books" />
+		<property name="taxName" value="Standard VAT" />
+		<property name="taxAmount" value="0.21" />
+		<property name="served" value="false" />
+		
+		<property name="order" ref="order4" />
+	</bean>
+	
+	<bean id="orderedItem5Order4" class="domain.OrderedItem">
+		<property name="quantity" value="1" />
+		<property name="sku" value="13-3341" />
+		<property name="name" value="A Dance With Dragons" />
+		<property name="description" value="by George R.R. Martin" />
+		<property name="picture" value="http://acme-supermarket.com/ice-fire-5.png" />
+		<property name="price">
+			<bean class="domain.Money">
+				<property name="currency" value="Euro" />
+				<property name="amount" value="10.00" />
+			</bean>
+		</property>
+		<property name="categoryName" value="Books" />
+		<property name="taxName" value="Standard VAT" />
+		<property name="taxAmount" value="0.21" />
+		<property name="served" value="false" />
+		
+		<property name="order" ref="order4" />
+	</bean>
+	
+	<bean id="orderedItem6Order4" class="domain.OrderedItem">
+		<property name="quantity" value="1" />
+		<property name="sku" value="13-3342" />
+		<property name="name" value="The Winds Of Winter" />
+		<property name="description" value="by George R.R. Martin" />
+		<property name="picture" value="http://acme-supermarket.com/ice-fire-6.png" />
+		<property name="price">
+			<bean class="domain.Money">
+				<property name="currency" value="Euro" />
+				<property name="amount" value="10.00" />
+			</bean>
+		</property>
+		<property name="categoryName" value="Books" />
+		<property name="taxName" value="Standard VAT" />
+		<property name="taxAmount" value="0.21" />
+		<property name="served" value="false" />
+		
+		<property name="order" ref="order4" />
+	</bean>
+	
+	<bean id="orderedItem7Order4" class="domain.OrderedItem">
+		<property name="quantity" value="1" />
+		<property name="sku" value="13-3343" />
+		<property name="name" value="A Dream Of Spring" />
+		<property name="description" value="by George R.R. Martin" />
+		<property name="picture" value="http://acme-supermarket.com/ice-fire-7.png" />
+		<property name="price">
+			<bean class="domain.Money">
+				<property name="currency" value="Euro" />
+				<property name="amount" value="10.00" />
+			</bean>
+		</property>
+		<property name="categoryName" value="Books" />
+		<property name="taxName" value="Standard VAT" />
+		<property name="taxAmount" value="0.21" />
+		<property name="served" value="false" />
+		
+		<property name="order" ref="order4" />
+	</bean>
+	
+	<!-- Taxes -->
+	
+	<bean id="tax1" class="domain.Tax">
+		<property name="name" value="Standard VAT"/>
+		<property name="amount" value="0.21"/>
+	</bean>
+	
+	<bean id="tax2" class="domain.Tax">
+		<property name="name" value="Reduced VAT"/>
+		<property name="amount" value="0.10"/>
+	</bean>
+	
+	<bean id="tax3" class="domain.Tax">
+		<property name="name" value="Super-Reduced VAT"/>
+		<property name="amount" value="0.04"/>
+	</bean>
+	
+	<!-- Categories -->
+	
+	<bean id="categoryElectronics" class="domain.Category">
+		<property name="name" value="Electronics" />
+		<property name="description" value="Computers, cameras, phones..." />
+		<property name="picture" value="http://acme-supermarket.com/categories/electronics.png" />
+		
+		<property name="items">
+			<list>
+				<ref bean="Item1" />
+				<ref bean="Item2" />
+				<ref bean="Item3" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="categoryAnimals" class="domain.Category">
+		<property name="name" value="Animals" />
+		<property name="description" value="Pet-related stuff" />
+		<property name="picture" value="http://acme-supermarket.com/categories/animals.png" />
+		
+		<property name="items">
+			<list>
+				<ref bean="Item4" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="categoryBooks" class="domain.Category">
+		<property name="name" value="Books" />
+		<property name="description" value="We also sell books." />
+		<property name="picture" value="http://acme-supermarket.com/categories/books.png" />
+		
+		<property name="items">
+			<list>
+				<ref bean="Item5" />
+				<ref bean="Item6" />
+				<ref bean="Item7" />
+				<ref bean="Item8" />
+				<ref bean="Item9" />
+				<ref bean="Item10" />
+				<ref bean="Item11" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="categoryVideogames" class="domain.Category">
+		<property name="name" value="Videogames" />
+		<property name="description" value="Soon (tm)" />
+		<property name="picture" value="http://acme-supermarket.com/categories/vidya.png" />
+		
+		<property name="items">
+			<list></list>
+		</property>
+	</bean>
+	
+	<!-- Items -->
+	
+	<bean id="Item1" class="domain.Item">
+		<property name="sku" value="ab-1234" />
+		<property name="name" value="USB cable" />
+		<property name="description" value="Standard USB cable" />
+		<property name="picture" value="http://acme-supermarket.com/usb-cable.png" />
+		<property name="price">
+			<bean class="domain.Money">
+				<property name="currency" value="Euro" />
+				<property name="amount" value="3.00" />
+			</bean>
+		</property>
+		<property name="tags">
+			<list>
+				<value>USB</value>
+				<value>cable</value>
+				<value>cheap</value>
+			</list>
+		</property>
+		<property name="deleted" value="false" />
+		<property name="numSold" value="2" />
+		
+		<property name="category" ref="categoryElectronics" />
+		<property name="tax" ref="tax1" />
+		<property name="itemStockInWarehouse">
+			<list>
+				<ref bean="Item1StockInWarehouse01" />
+				<ref bean="Item1StockInWarehouse02" />
+				<ref bean="Item1StockInWarehouse03" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="Item2" class="domain.Item">
+		<property name="sku" value="12-3456" />
+		<property name="name" value="SD reader" />
+		<property name="description" value="SD card reader" />
+		<property name="picture" value="http://acme-supermarket.com/sd-reader.png" />
+		<property name="price">
+			<bean class="domain.Money">
+				<property name="currency" value="Euro" />
+				<property name="amount" value="1.50" />
+			</bean>
+		</property>
+		<property name="tags">
+			<list>
+				<value>SD</value>
+				<value>card</value>
+				<value>reader</value>
+			</list>
+		</property>
+		<property name="deleted" value="false" />
+		<property name="numSold" value="1" />
+		
+		<property name="category" ref="categoryElectronics" />
+		<property name="tax" ref="tax1" />
+		<property name="itemStockInWarehouse">
+			<list>
+				<ref bean="Item2StockInWarehouse01" />
+				<ref bean="Item2StockInWarehouse02" />
+				<ref bean="Item2StockInWarehouse03" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="Item3" class="domain.Item">
+		<property name="sku" value="99-8877" />
+		<property name="name" value="SD card" />
+		<property name="description" value="SD memory card" />
+		<property name="picture"><null/></property>
+		<property name="price">
+			<bean class="domain.Money">
+				<property name="currency" value="Euro" />
+				<property name="amount" value="2.50" />
+			</bean>
+		</property>
+		<property name="tags">
+			<list>
+				<value>SD</value>
+				<value>card</value>
+				<value>memory</value>
+			</list>
+		</property>
+		<property name="deleted" value="false" />
+		<property name="numSold" value="1" />
+		
+		<property name="category" ref="categoryElectronics" />
+		<property name="tax" ref="tax1" />
+		<property name="itemStockInWarehouse">
+			<list>
+				<ref bean="Item3StockInWarehouse01" />
+				<!-- not in Warehouse02 -->
+				<!-- not in Warehouse03 -->
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="Item4" class="domain.Item">
+		<property name="sku" value="42-0blz" />
+		<property name="name" value="Cat food" />
+		<property name="description" value="Standard cat food" />
+		<property name="picture" value="http://acme-supermarket.com/cat-food.png" />
+		<property name="price">
+			<bean class="domain.Money">
+				<property name="currency" value="Euro" />
+				<property name="amount" value="5.00" />
+			</bean>
+		</property>
+		<property name="tags">
+			<list>
+				<value>cat</value>
+				<value>food</value>
+				<value>animals</value>
+			</list>
+		</property>
+		<property name="deleted" value="false" />
+		<property name="numSold" value="1" />
+		
+		<property name="category" ref="categoryAnimals" />
+		<property name="tax" ref="tax2" />
+		<property name="itemStockInWarehouse">
+			<list>
+				<ref bean="Item4StockInWarehouse01" />
+				<ref bean="Item4StockInWarehouse02" />
+				<ref bean="Item4StockInWarehouse03" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="Item5" class="domain.Item">
+		<property name="sku" value="13-3337" />
+		<property name="name" value="A Game Of Thrones" />
+		<property name="description" value="by George R.R. Martin" />
+		<property name="picture" value="http://acme-supermarket.com/ice-fire-1.png" />
+		<property name="price">
+			<bean class="domain.Money">
+				<property name="currency" value="Euro" />
+				<property name="amount" value="10.00" />
+			</bean>
+		</property>
+		<property name="tags">
+			<list>
+				<value>game</value>
+				<value>thrones</value>
+				<value>george</value>
+				<value>martin</value>
+			</list>
+		</property>
+		<property name="deleted" value="false" />
+		<property name="numSold" value="0" />
+		
+		<property name="category" ref="categoryBooks" />
+		<property name="tax" ref="tax1" />
+		<property name="itemStockInWarehouse">
+			<list>
+				<ref bean="Item5StockInWarehouse01" />
+				<ref bean="Item5StockInWarehouse02" />
+				<ref bean="Item5StockInWarehouse03" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="Item6" class="domain.Item">
+		<property name="sku" value="13-3338" />
+		<property name="name" value="A Clash Of Kings" />
+		<property name="description" value="by George R.R. Martin" />
+		<property name="picture" value="http://acme-supermarket.com/ice-fire-2.png" />
+		<property name="price">
+			<bean class="domain.Money">
+				<property name="currency" value="Euro" />
+				<property name="amount" value="10.00" />
+			</bean>
+		</property>
+		<property name="tags">
+			<list>
+				<value>clash</value>
+				<value>kings</value>
+				<value>george</value>
+				<value>martin</value>
+			</list>
+		</property>
+		<property name="deleted" value="false" />
+		<property name="numSold" value="0" />
+		
+		<property name="category" ref="categoryBooks" />
+		<property name="tax" ref="tax1" />
+		<property name="itemStockInWarehouse">
+			<list>
+				<ref bean="Item6StockInWarehouse01" />
+				<ref bean="Item6StockInWarehouse02" />
+				<ref bean="Item6StockInWarehouse03" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="Item7" class="domain.Item">
+		<property name="sku" value="13-3339" />
+		<property name="name" value="A Storm Of Swords" />
+		<property name="description" value="by George R.R. Martin" />
+		<property name="picture" value="http://acme-supermarket.com/ice-fire-3.png" />
+		<property name="price">
+			<bean class="domain.Money">
+				<property name="currency" value="Euro" />
+				<property name="amount" value="10.00" />
+			</bean>
+		</property>
+		<property name="tags">
+			<list>
+				<value>storm</value>
+				<value>swords</value>
+				<value>george</value>
+				<value>martin</value>
+			</list>
+		</property>
+		<property name="deleted" value="false" />
+		<property name="numSold" value="0" />
+		
+		<property name="category" ref="categoryBooks" />
+		<property name="tax" ref="tax1" />
+		<property name="itemStockInWarehouse">
+			<list>
+				<!-- not in Warehouse01 -->
+				<ref bean="Item7StockInWarehouse02" />
+				<ref bean="Item7StockInWarehouse03" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="Item8" class="domain.Item">
+		<property name="sku" value="13-3340" />
+		<property name="name" value="A Feast For Crows" />
+		<property name="description" value="by George R.R. Martin" />
+		<property name="picture" value="http://acme-supermarket.com/ice-fire-4.png" />
+		<property name="price">
+			<bean class="domain.Money">
+				<property name="currency" value="Euro" />
+				<property name="amount" value="10.00" />
+			</bean>
+		</property>
+		<property name="tags">
+			<list>
+				<value>feast</value>
+				<value>crows</value>
+				<value>george</value>
+				<value>martin</value>
+			</list>
+		</property>
+		<property name="deleted" value="false" />
+		<property name="numSold" value="0" />
+		
+		<property name="category" ref="categoryBooks" />
+		<property name="tax" ref="tax1" />
+		<property name="itemStockInWarehouse">
+			<list>
+				<ref bean="Item8StockInWarehouse01" />
+				<!-- not in Warehouse02 -->
+				<ref bean="Item8StockInWarehouse03" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="Item9" class="domain.Item">
+		<property name="sku" value="13-3341" />
+		<property name="name" value="A Dance With Dragons" />
+		<property name="description" value="by George R.R. Martin" />
+		<property name="picture" value="http://acme-supermarket.com/ice-fire-5.png" />
+		<property name="price">
+			<bean class="domain.Money">
+				<property name="currency" value="Euro" />
+				<property name="amount" value="10.00" />
+			</bean>
+		</property>
+		<property name="tags">
+			<list>
+				<value>dance</value>
+				<value>dragons</value>
+				<value>george</value>
+				<value>martin</value>
+			</list>
+		</property>
+		<property name="deleted" value="false" />
+		<property name="numSold" value="0" />
+		
+		<property name="category" ref="categoryBooks" />
+		<property name="tax" ref="tax1" />
+		<property name="itemStockInWarehouse">
+			<list></list>
+		</property>
+	</bean>
+	
+	<bean id="Item10" class="domain.Item">
+		<property name="sku" value="13-3342" />
+		<property name="name" value="The Winds Of Winter" />
+		<property name="description" value="by George R.R. Martin" />
+		<property name="picture" value="http://acme-supermarket.com/ice-fire-6.png" />
+		<property name="price">
+			<bean class="domain.Money">
+				<property name="currency" value="Euro" />
+				<property name="amount" value="10.00" />
+			</bean>
+		</property>
+		<property name="tags">
+			<list>
+				<value>winds</value>
+				<value>winter</value>
+				<value>george</value>
+				<value>martin</value>
+			</list>
+		</property>
+		<property name="deleted" value="false" />
+		<property name="numSold" value="0" />
+		
+		<property name="category" ref="categoryBooks" />
+		<property name="tax" ref="tax1" />
+		<property name="itemStockInWarehouse">
+			<list></list>
+		</property>
+	</bean>
+	
+	<bean id="Item11" class="domain.Item">
+		<property name="sku" value="13-3343" />
+		<property name="name" value="A Dream Of Spring" />
+		<property name="description" value="by George R.R. Martin" />
+		<property name="picture" value="http://acme-supermarket.com/ice-fire-7.png" />
+		<property name="price">
+			<bean class="domain.Money">
+				<property name="currency" value="Euro" />
+				<property name="amount" value="10.00" />
+			</bean>
+		</property>
+				<property name="tags">
+			<list>
+				<value>dream</value>
+				<value>spring</value>
+				<value>george</value>
+				<value>martin</value>
+			</list>
+		</property>
+		<property name="deleted" value="false" />
+		<property name="numSold" value="0" />
+		
+		<property name="category" ref="categoryBooks" />
+		<property name="tax" ref="tax1" />
+		<property name="itemStockInWarehouse">
+			<list></list>
+		</property>
+	</bean>
+
+	<!-- warehouses -->
+	
+	<bean id="Warehouse01" class="domain.Warehouse">
+		<property name="name" value="almacen_pisa" />
+		<property name="address" value="Poligono PISA, SN, Sevilla" />
+		<property name="itemStockInWarehouse">
+			<list>
+				<ref bean="Item1StockInWarehouse01"/>
+				<ref bean="Item2StockInWarehouse01"/>
+				<ref bean="Item3StockInWarehouse01"/>
+				<ref bean="Item4StockInWarehouse01"/>
+				<ref bean="Item5StockInWarehouse01"/>
+				<ref bean="Item6StockInWarehouse01"/>
+				<!-- no Item7 -->
+				<ref bean="Item8StockInWarehouse01"/>
+				<!-- no Item9 -->
+				<!-- no Item10 -->
+				<!-- no Item11 -->
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="Warehouse02" class="domain.Warehouse">
+		<property name="name" value="almacen_calonge" />
+		<property name="address" value="Poligono Calonge, SN, Sevilla" />
+		<property name="itemStockInWarehouse">
+			<list>
+				<ref bean="Item1StockInWarehouse02"/>
+				<ref bean="Item2StockInWarehouse02"/>
+				<!--  no Item3 -->
+				<ref bean="Item4StockInWarehouse02"/>
+				<ref bean="Item5StockInWarehouse02"/>
+				<ref bean="Item6StockInWarehouse02"/>
+				<ref bean="Item7StockInWarehouse02"/>
+				<!-- no Item8 -->
+				<!-- no Item9 -->
+				<!-- no Item10 -->
+				<!-- no Item11 -->
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="Warehouse03" class="domain.Warehouse">
+		<property name="name" value="almacen_store" />
+		<property name="address" value="Poligono Store, SN, Sevilla" />
+		<property name="itemStockInWarehouse">
+			<list>
+				<ref bean="Item1StockInWarehouse03"/>
+				<ref bean="Item2StockInWarehouse03"/>
+				<!-- no Item3 -->
+				<ref bean="Item4StockInWarehouse03"/>
+				<ref bean="Item5StockInWarehouse03"/>
+				<ref bean="Item6StockInWarehouse03"/>
+				<ref bean="Item7StockInWarehouse03"/>
+				<ref bean="Item8StockInWarehouse03"/>
+				<!-- no Item9 -->
+				<!-- no Item10 -->
+				<!-- no Item11 -->
+			</list>
+		</property>
+	</bean>
+	
+	<!-- Item stock in warehouses -->
+	
+	<bean id="Item1StockInWarehouse01" class="domain.ItemStockInWarehouse">
+		<property name="quantity" value="10" />
+		<property name="Item" ref="Item1" />
+		<property name="Warehouse" ref="Warehouse01" />
+	</bean>
+	
+	<bean id="Item1StockInWarehouse02" class="domain.ItemStockInWarehouse">
+		<property name="quantity" value="20" />
+		<property name="Item" ref="Item1" />
+		<property name="Warehouse" ref="Warehouse02" />
+	</bean>
+	
+	<bean id="Item1StockInWarehouse03" class="domain.ItemStockInWarehouse">
+		<property name="quantity" value="30" />
+		<property name="Item" ref="Item1" />
+		<property name="Warehouse" ref="Warehouse03" />
+	</bean>
+	
+	<bean id="Item2StockInWarehouse01" class="domain.ItemStockInWarehouse">
+		<property name="quantity" value="20" />
+		<property name="Item" ref="Item2" />
+		<property name="Warehouse" ref="Warehouse01" />
+	</bean>
+	
+	<bean id="Item2StockInWarehouse02" class="domain.ItemStockInWarehouse">
+		<property name="quantity" value="30" />
+		<property name="Item" ref="Item2" />
+		<property name="Warehouse" ref="Warehouse02" />
+	</bean>
+	
+	<bean id="Item2StockInWarehouse03" class="domain.ItemStockInWarehouse">
+		<property name="quantity" value="40" />
+		<property name="Item" ref="Item2" />
+		<property name="Warehouse" ref="Warehouse03" />
+	</bean>
+	
+	<bean id="Item3StockInWarehouse01" class="domain.ItemStockInWarehouse">
+		<property name="quantity" value="120" />
+		<property name="Item" ref="Item3" />
+		<property name="Warehouse" ref="Warehouse01" />
+	</bean>
+	
+	<bean id="Item4StockInWarehouse01" class="domain.ItemStockInWarehouse">
+		<property name="quantity" value="1500" />
+		<property name="Item" ref="Item4" />
+		<property name="Warehouse" ref="Warehouse01" />
+	</bean>
+	
+	<bean id="Item4StockInWarehouse02" class="domain.ItemStockInWarehouse">
+		<property name="quantity" value="1500" />
+		<property name="Item" ref="Item4" />
+		<property name="Warehouse" ref="Warehouse02" />
+	</bean>
+
+	<bean id="Item4StockInWarehouse03" class="domain.ItemStockInWarehouse">
+		<property name="quantity" value="1500" />
+		<property name="Item" ref="Item4" />
+		<property name="Warehouse" ref="Warehouse03" />
+	</bean>
+	
+	<bean id="Item5StockInWarehouse01" class="domain.ItemStockInWarehouse">
+		<property name="quantity" value="123" />
+		<property name="Item" ref="Item5" />
+		<property name="Warehouse" ref="Warehouse01" />
+	</bean>
+	
+	<bean id="Item5StockInWarehouse02" class="domain.ItemStockInWarehouse">
+		<property name="quantity" value="234" />
+		<property name="Item" ref="Item5" />
+		<property name="Warehouse" ref="Warehouse02" />
+	</bean>
+
+	<bean id="Item5StockInWarehouse03" class="domain.ItemStockInWarehouse">
+		<property name="quantity" value="345" />
+		<property name="Item" ref="Item5" />
+		<property name="Warehouse" ref="Warehouse03" />
+	</bean>
+	
+	<bean id="Item6StockInWarehouse01" class="domain.ItemStockInWarehouse">
+		<property name="quantity" value="601" />
+		<property name="Item" ref="Item6" />
+		<property name="Warehouse" ref="Warehouse01" />
+	</bean>
+	
+	<bean id="Item6StockInWarehouse02" class="domain.ItemStockInWarehouse">
+		<property name="quantity" value="602" />
+		<property name="Item" ref="Item6" />
+		<property name="Warehouse" ref="Warehouse02" />
+	</bean>
+
+	<bean id="Item6StockInWarehouse03" class="domain.ItemStockInWarehouse">
+		<property name="quantity" value="603" />
+		<property name="Item" ref="Item6" />
+		<property name="Warehouse" ref="Warehouse03" />
+	</bean>
+	
+	<bean id="Item7StockInWarehouse02" class="domain.ItemStockInWarehouse">
+		<property name="quantity" value="100000" />
+		<property name="Item" ref="Item7" />
+		<property name="Warehouse" ref="Warehouse02" />
+	</bean>
+
+	<bean id="Item7StockInWarehouse03" class="domain.ItemStockInWarehouse">
+		<property name="quantity" value="10" />
+		<property name="Item" ref="Item7" />
+		<property name="Warehouse" ref="Warehouse03" />
+	</bean>
+	
+	<bean id="Item8StockInWarehouse01" class="domain.ItemStockInWarehouse">
+		<property name="quantity" value="100000" />
+		<property name="Item" ref="Item8" />
+		<property name="Warehouse" ref="Warehouse01" />
+	</bean>
+
+	<bean id="Item8StockInWarehouse03" class="domain.ItemStockInWarehouse">
+		<property name="quantity" value="100000000" />
+		<property name="Item" ref="Item8" />
+		<property name="Warehouse" ref="Warehouse03" />
+	</bean>
+
+	<!-- ItemQuantityCart -->
+	
+	<bean id="Cart1Item1" class="domain.ItemQuantityCart">
+		<property name="itemQuantity" value="3" />
+		<property name="item" ref="Item2" />
+		<property name="shoppingCart" ref="shoppingCart1" />
+	</bean>
+	
+	<bean id="Cart1Item2" class="domain.ItemQuantityCart">
+		<property name="itemQuantity" value="2" />
+		<property name="item" ref="Item5" />
+		<property name="shoppingCart" ref="shoppingCart1" />
+	</bean>
+	
+	<bean id="Cart1Item3" class="domain.ItemQuantityCart">
+		<property name="itemQuantity" value="3" />
+		<property name="item" ref="Item3" />
+		<property name="shoppingCart" ref="shoppingCart1" />
+	</bean>
+	
+	<bean id="Cart2Item1" class="domain.ItemQuantityCart">
+		<property name="itemQuantity" value="1" />
+		<property name="item" ref="Item7" />
+		<property name="shoppingCart" ref="shoppingCart2" />
+	</bean>
+		
+	<bean id="Cart3Item1" class="domain.ItemQuantityCart">
+		<property name="itemQuantity" value="2" />
+		<property name="item" ref="Item3" />
+		<property name="shoppingCart" ref="shoppingCart3" />
+	</bean>
+		
+	<bean id="Cart3Item2" class="domain.ItemQuantityCart">
+		<property name="itemQuantity" value="1" />
+		<property name="item" ref="Item8" />
+		<property name="shoppingCart" ref="shoppingCart3" />
+	</bean>
+</beans>

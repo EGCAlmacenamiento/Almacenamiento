@@ -1,0 +1,56 @@
+package services;
+
+import javax.transaction.Transactional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
+
+import repositories.TaxRepository;
+import security.Authority;
+import security.LoginService;
+import security.UserAccount;
+import domain.Tax;
+
+@Service
+@Transactional
+public class TaxService {
+	// Managed Repository ------------------------------
+	@Autowired
+	private TaxRepository TaxRepository;
+	
+	// Supporting Services -----------------------------
+	
+	
+	// Constructors ------------------------------------
+	public TaxService(){
+		super();
+	}
+	
+	
+	// Simple CRUD Methods -----------------------------
+	public Tax create(){
+		UserAccount user = LoginService.getPrincipal();
+		Assert.isTrue(user.getUsername().equals(Authority.ADMIN));
+		return new Tax();
+	}
+	
+	public void save(Tax Tax){
+		UserAccount user = LoginService.getPrincipal();
+		Assert.isTrue(user.getUsername().equals(Authority.ADMIN));
+		TaxRepository.save(Tax);
+	}
+	
+	
+	public void delete(Tax tax){
+		UserAccount user = LoginService.getPrincipal();
+		Assert.isTrue(user.getUsername().equals(Authority.ADMIN));
+		TaxRepository.delete(tax);
+	}
+	
+	
+	// Other Business Methods ---------------------------
+	
+
+
+}

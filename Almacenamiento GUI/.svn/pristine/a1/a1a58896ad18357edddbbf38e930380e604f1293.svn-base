@@ -1,0 +1,54 @@
+package domain;
+
+import java.util.ArrayList;
+import java.util.Collection;
+
+import javax.persistence.Access;
+import javax.persistence.AccessType;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.OneToMany;
+import javax.validation.constraints.NotNull;
+
+@Entity
+@Access(AccessType.PROPERTY)
+public class ShoppingCart extends DomainEntity {
+	
+	public ShoppingCart(){
+		super();
+		comments = new ArrayList<String>();
+		itemQuantityCart = new ArrayList<ItemQuantityCart>();
+	}
+	
+	// ------------ Attributes ------------ 
+	
+	private Collection<String> comments;
+	
+	// ------------ Relationships attributes ------------ 
+	
+	private Collection<ItemQuantityCart> itemQuantityCart;
+	
+
+	// ------------ Attributes getters and setters ------------ 
+
+	@ElementCollection
+	@NotNull
+	public Collection<String> getComments() {
+		return comments;
+	}
+
+	public void setComments(Collection<String> comments) {
+		this.comments = comments;
+	}
+	
+	// ------------ Relationships ------------ 
+
+	@OneToMany(mappedBy="shoppingCart")
+	public Collection<ItemQuantityCart> getItemQuantityCart() {
+		return itemQuantityCart;
+	}
+
+	public void setItemQuantityCart(Collection<ItemQuantityCart> itemQuantityCart) {
+		this.itemQuantityCart = itemQuantityCart;
+	}
+}

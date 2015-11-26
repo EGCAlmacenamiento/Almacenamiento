@@ -1,0 +1,22 @@
+package repositories;
+
+import java.util.Collection;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
+
+import domain.Clerk;
+
+@Repository
+public interface ClerkRepository extends JpaRepository<Clerk, Integer>{
+	
+	@Query("select c from Clerk c where c.deliveredOrders=(select max(z.deliveredOrders) from Clerk z)")
+	public Collection<Clerk> clerkMaxOrders();
+
+	@Query("select c from Clerk c where c.deliveredOrders=(select min(z.deliveredOrders) from Clerk z)")
+	public Collection<Clerk> clerkMinOrders();
+	
+	@Query("select c from Clerk c where c.userAccount = (select u from UserAccount u where u.id = ?1)")
+	public Clerk findByUserAccountId(Integer id);
+}

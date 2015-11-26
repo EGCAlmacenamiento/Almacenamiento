@@ -1,0 +1,29 @@
+package repositories;
+
+import java.util.Collection;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
+
+import domain.Consumer;
+import domain.Order;
+
+@Repository
+public interface ConsumerRepository extends JpaRepository<Consumer, Integer>{
+	@Query("select c from Consumer c where c.totalOrders=(select max(z.totalOrders) from Consumer z);")
+	public Collection<Consumer> consumerMaxOrders();
+
+	@Query("select c from Consumer c where c.spentMoney.amount=(select max(z.spentMoney.amount) from Consumer z);")
+	public Collection<Consumer> consumerMaxSpentmoney();
+	
+	@Query("select c from Consumer c where c.cancelledOrders=(select max(z.cancelledOrders) from Consumer z);")
+	public Collection<Order> consumerMaxCancelledOrders();
+	
+	@Query("select c from Consumer c where c.cancelledOrders=(select min(z.cancelledOrders) from Consumer z);")
+	public Collection<Order> consumerMinCancelledOrders();
+	
+	
+	
+	
+}

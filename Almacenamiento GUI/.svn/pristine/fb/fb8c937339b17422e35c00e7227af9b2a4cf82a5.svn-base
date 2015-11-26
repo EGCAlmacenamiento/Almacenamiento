@@ -1,0 +1,124 @@
+package services;
+
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.TransactionSystemException;
+
+import utils.AbstractTest;
+import domain.Consumer;
+import domain.Money;
+
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations= { "classpath:spring/datasource.xml", "classpath:spring/config/packages.xml"})
+
+public class ConsumerBasicTest extends AbstractTest{
+	
+	// Service under Test -----------------
+	@Autowired
+	private ConsumerService consumerService;
+	
+	// Helper functions -------------------
+	private Consumer generateTestConsumer()
+	{
+		Consumer consumer = new Consumer();
+		Money money = new Money();
+		
+		// own attributes
+		money.setAmount(150.5);
+		money.setCurrency("creditosDeLaRepublica");
+		consumer.setSpentMoney(money);
+		consumer.setCancelledOrders(100);
+		consumer.setTotalOrders(2500);
+		
+		// from Actor
+		consumer.setName("test_consumer_name");
+		consumer.setSurname("test_consumer_surname");
+		consumer.setPhone("555-175-125");
+		consumer.setEmail("test@acmesupermarket.com");
+		
+		return consumer;
+	}
+	
+	// Tests ------------------------------
+	@Test
+	public void testSave1(){
+		// TODO: autenticar como null implica que en ConsumerService.save() los Assert reciben null en vez de false
+		authenticate(null);
+		consumerService.save(generateTestConsumer());
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void testSave2(){
+		authenticate("admin1");
+		consumerService.save(generateTestConsumer());
+		authenticate(null);
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void testSave3(){
+		// wrong authentication
+		authenticate("consumer1");
+		consumerService.save(generateTestConsumer());
+		authenticate(null);
+	}
+	
+	@Test(expected = TransactionSystemException.class)
+	public void testSave4(){
+		Consumer consumer = generateTestConsumer();
+
+		// let's trigger ConstraintViolationException
+		consumer.setName(null);
+		
+		// TODO: autenticar como null implica que en ConsumerService.save() los Assert reciben null en vez de false
+		authenticate(null);
+		consumerService.save(consumer);
+	}
+	
+	@Test
+	public void test_findTopOrdersConsumers1(){
+		authenticate("admin1");
+		consumerService.findTopOrdersConsumers();
+		authenticate(null);
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void test_findTopOrdersConsumers2(){
+		// wrong authentication
+		authenticate("consumer1");
+		consumerService.findTopOrdersConsumers();
+		authenticate(null);
+	}
+
+	@Test
+	public void test_findTopSpentMoneyConsumers1(){
+		authenticate("admin1");
+		consumerService.findTopSpentMoneyConsumers();
+		authenticate(null);
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void test_findTopSpentMoneyConsumers2(){
+		// wrong authentication
+		authenticate("consumer1");
+		consumerService.findTopSpentMoneyConsumers();
+		authenticate(null);
+	}
+	
+	@Test
+	public void test_findMoreCancelledOrdersConsumers1(){
+		authenticate("admin1");
+		consumerService.findMoreCancelledOrdersConsumers();
+		authenticate(null);
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void test_findMoreCancelledOrdersConsumers2(){
+		// wrong authentication
+		authenticate("consumer1");
+		consumerService.findMoreCancelledOrdersConsumers();
+		authenticate(null);
+	}
+}

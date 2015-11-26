@@ -1,0 +1,72 @@
+package services;
+
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.util.Assert;
+
+import utilities.DPUtils;
+import utils.AbstractTest;
+import domain.Category;
+
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations= { "classpath:spring/datasource.xml", "classpath:spring/config/packages.xml"})
+
+public class CategoryBasicTest extends AbstractTest{
+	
+	// Service under Test -----------------
+	@Autowired
+	private CategoryService categoryService;
+	
+	// Helper functions -------------------
+	private Category generateTestCategory() {
+		Category category = new Category();
+
+		category.setName("Test Category");
+		category.setDescription("Test Description");
+		return category;
+	}
+	
+	// Tests ------------------------------
+	// TEST 12.4 - Manage the catalogue of categories, which includes creating them, listing them, modifying them, and deleting them.
+	@Test
+	public void createCategory(){
+		authenticate("admin1");
+		Category cat = categoryService.save(generateTestCategory());
+		Assert.isTrue(cat.getId() != 0);
+		authenticate(null);
+	}
+	
+	@Test
+	public void updateCategory(){
+		String desc = "Description Changed";
+		authenticate("admin1");
+		
+		Category cat = categoryService.save(generateTestCategory());
+		Assert.isTrue(cat.getId() != 0);
+		
+		cat.setDescription(desc);
+		cat = categoryService.save(cat);
+		
+		Assert.isTrue(cat.getDescription().equals(desc));
+		authenticate(null);
+	}
+	
+	@Test
+	public void deleteCategory(){
+		authenticate("admin1");
+		
+		Category cat = categoryService.save(generateTestCategory());
+		Assert.isTrue(cat.getId() != 0);
+		categoryService.delete(cat);
+		
+		Assert.isTrue(!DPUtils.inCollection(categoryService.findAll(), cat));
+		
+		authenticate(null);
+	}
+	
+	
+	
+}

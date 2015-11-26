@@ -1,0 +1,61 @@
+package services;
+
+import java.util.Collection;
+
+import javax.transaction.Transactional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
+
+import repositories.TaxRepository;
+import security.Authority;
+import utilities.DPMessage;
+import utilities.DPUtils;
+import domain.Tax;
+
+@Service
+@Transactional
+public class TaxService {
+	// Managed Repository ------------------------------
+	@Autowired
+	private TaxRepository taxRepository;
+	
+	// Supporting Services -----------------------------
+	
+	
+	// Constructors ------------------------------------
+	public TaxService(){
+		super();
+	}
+	
+	
+	// Simple CRUD Methods -----------------------------
+	public Tax create(){		
+		return new Tax();
+	}
+	
+	public Collection<Tax> findAll(){
+		return taxRepository.findAll();
+	}
+
+	// REQ 12.3 - Manage a table of taxes, which includes creating, updating, and deleting them.
+	// Only taxes that have never been used in an item can actually be deleted.
+	public Tax save(Tax Tax){
+		Assert.isTrue(DPUtils.hasRole(Authority.ADMIN), DPMessage.NO_PERMISSIONS);
+		return taxRepository.save(Tax);
+	}
+
+	public void delete(Tax tax){
+		Assert.isTrue(DPUtils.hasRole(Authority.ADMIN), DPMessage.NO_PERMISSIONS);
+		long itemsWithTax = taxRepository.getNumberOfItemsWithTax(tax.getId());
+		Assert.isTrue(itemsWithTax == 0L);
+		taxRepository.delete(tax);
+	}
+	
+	
+	// Other Business Methods ---------------------------
+	
+
+
+}

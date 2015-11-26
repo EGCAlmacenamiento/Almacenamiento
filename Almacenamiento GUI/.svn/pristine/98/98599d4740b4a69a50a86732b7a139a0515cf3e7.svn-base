@@ -1,0 +1,35 @@
+# C level
+
+Query 1: The consumers who have placed more orders.
+select c from Consumer c where c.totalOrders=(select max(z.totalOrders) from Consumer z);
+
+Query 2: The consumer/s who has/have spent more money on their orders.
+select c from Consumer c where c.totalOrders=(select min(z.totalOrders) from Consumer z);
+
+Query 3: The best-selling item/s in the inventory.
+select i from Item i where i.numSold=(select max(z.numSold) from Item z);
+
+Query 4: The worst-selling item/s in the inventory. 
+select i from Item i where i.numSold=(select min(z.numSold) from Item z);
+
+
+
+
+# B level
+
+Query 1: The clerk/s who has/have served and delivered more orders.
+select c from Clerk c where c.deliveredOrders=(select max(z.deliveredOrders) from Clerk z);
+
+Query 2: The clerk/s who has/have served and delivered less orders.
+select c from Clerk c where c.deliveredOrders=(select min(z.deliveredOrders) from Clerk z);
+
+Query 3: The consumer/s who has/have cancelled more orders.
+select c from Consumer c where c.cancelledOrders=(select max(z.cancelledOrders) from Consumer z);
+
+Query 4: The consumer/s who has/have cancelled less orders.
+select c from Consumer c where c.cancelledOrders=(select min(z.cancelledOrders) from Consumer z);
+
+Query 5: The ratio of orders that have been cancelled during the current month.
+select o from Order o where MONTH(o.cancellationMoment) = MONTH(CURRENT_TIMESTAMP);
+
+

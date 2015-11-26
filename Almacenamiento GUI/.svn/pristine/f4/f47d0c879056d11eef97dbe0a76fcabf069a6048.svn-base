@@ -1,0 +1,130 @@
+package services;
+
+import java.util.Map;
+
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.util.Assert;
+
+import utilities.DPUtils;
+import utils.AbstractTest;
+import domain.Category;
+import domain.Item;
+import domain.Money;
+
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations= { "classpath:spring/datasource.xml", "classpath:spring/config/packages.xml"})
+
+public class ItemBasicTest extends AbstractTest{
+	
+	// Service under Test -----------------
+	@Autowired
+	private ItemService itemService;
+	
+	@Autowired 
+	private CategoryService categoryService;
+	
+	@Autowired
+	private TaxService taxService;
+	
+	// Helper functions -------------------
+	private Item getTestItem(){
+		Item item = itemService.create();
+		Money money = new Money();
+		
+		money.setAmount(100.0);
+		money.setCurrency("Currency");
+		
+		item.setCategory(categoryService.findAll().iterator().next());
+		item.setDescription("Description Test");
+		item.setName("Name Test");
+		item.setPicture("http://p5cdn4static.sharpschool.com/UserFiles/Servers/Server_3168824/Image/test.png");
+		item.setPrice(money);
+		item.setSku("13-333m");
+		item.setTax(taxService.findAll().iterator().next());
+		
+		return item;
+	}
+
+	// TEST 10.2 - List the catalogue of items grouped by their categories.
+	@Test
+	public void listItemsByCategories(){
+		authenticate("consumer1");
+		Map<Category, Item> mapTest = itemService.getItemsGroupedByCategory();
+		Assert.isTrue(!mapTest.isEmpty());
+		authenticate(null);
+	}
+	
+	// TEST 10.3 - Search for an item using a single keyword that must appear verbatim in its SKU, its name, or its description.
+	@Test
+	public void searchItemByKeyword(){
+		authenticate("consumer1");
+		Assert.notEmpty(itemService.searchByKeyword("-"));
+		authenticate(null);
+	}
+	
+	// TEST 12.2 - Manage the catalogue of items, which includes creating, updating, and deleting them. 
+	// Note that items are never actually deleted, but marked as deleted. 
+	// Items that are marked as deleted arent displayed in the catalogue of items and, obviously, cannot be ordered.
+	@Test
+	public void createItem(){
+		authenticate("admin1");
+		
+		Item item = getTestItem();
+		item = itemService.save(item);
+		Assert.isTrue(item.getId() != 0);
+		
+		authenticate(null);
+	}
+	
+	@Test
+	public void updateItem(){
+		String desc = "Test Description";
+		authenticate("admin1");
+		
+		Item item = getTestItem();
+		item = itemService.save(item);
+		Assert.isTrue(item.getId() != 0);
+		
+		item.setDescription(desc);
+		item = itemService.save(item);
+		
+		Assert.isTrue(item.getDescription().equals(desc));
+		
+		authenticate(null);
+	}
+	
+	@Test
+	public void deleteItem(){
+		authenticate("admin1");
+		
+		Item item = getTestItem();
+		item = itemService.save(item);
+		Assert.isTrue(item.getId() != 0);
+		
+		itemService.delete(item);
+		Assert.isTrue(!DPUtils.inCollection(itemService.findAll(), item));
+		
+		authenticate(null);
+	}
+	
+	// TEST 12.7 (3) - The best-selling item/s in the inventory.
+	@Test
+	public void getTopProducts(){
+		authenticate("admin1");
+		Assert.notEmpty(itemService.findBestSellingItems());
+		authenticate(null);
+	}
+	
+	// TEST 12.7 (4) - The worst-selling item/s in the inventory.
+	public void getLessSellingProducts(){
+		authenticate("admin1");
+		Assert.notEmpty(itemService.findWorstSellingItems());
+		authenticate(null);
+	}
+	
+
+}

@@ -1,0 +1,42 @@
+package services;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import repositories.ItemQuantityCartRepository;
+import domain.ItemQuantityCart;
+
+@Service
+@Transactional
+public class ItemQuantityCartService {
+	// Managed Repository ------------------------------
+	@Autowired
+	private ItemQuantityCartRepository itemCartRepository;
+
+	// Supporting Services -----------------------------
+
+	// Constructors ------------------------------------
+	public ItemQuantityCartService() {
+		super();
+	}
+
+	// Simple CRUD Methods -----------------------------
+	public ItemQuantityCart create() {
+		return new ItemQuantityCart();
+	}
+
+	public ItemQuantityCart save(ItemQuantityCart itemCart) {
+		return itemCartRepository.save(itemCart);
+	}
+
+	public void delete(ItemQuantityCart itemCart) {
+		itemCartRepository.delete(itemCart);
+	}
+
+	// Other Business Methods ---------------------------
+	
+	public ItemQuantityCart getItemInCart(Integer itemId, Integer cartId) {
+		return itemCartRepository.getItemQuantityInCart(itemId, cartId);
+	}
+}

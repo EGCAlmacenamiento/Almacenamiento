@@ -1,0 +1,20 @@
+package repositories;
+
+import java.util.Collection;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+
+import domain.ItemStockInWarehouse;
+
+public interface ItemStockInWarehouseRepository extends JpaRepository<ItemStockInWarehouse, Integer> {
+	
+	@Query("select a from ItemStockInWarehouse a where a.warehouse = ?1")
+	public Collection<ItemStockInWarehouse> getAllItemsInWarehouse(int warehouseId);
+	
+	@Query("select a from ItemStockInWarehouse a where a.item = ?1 and a.warehouse = ?2")
+	public ItemStockInWarehouse getItemStockInWarehouse(int itemId, int warehouseId);
+	
+	@Query("select a from ItemStockInWarehouse a where a.item = ?1")
+	public Collection<ItemStockInWarehouse> getAllItemStockInWarehouse(int itemId);
+}

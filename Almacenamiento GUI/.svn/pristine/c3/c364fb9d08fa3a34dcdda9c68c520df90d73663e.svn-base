@@ -1,0 +1,164 @@
+package domain;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+
+import javax.persistence.Access;
+import javax.persistence.AccessType;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
+import javax.validation.constraints.Pattern;
+
+import org.hibernate.validator.constraints.NotBlank;
+
+@Entity
+@Access(AccessType.PROPERTY)
+@Table(name="orders")
+public class Order extends DomainEntity {
+	
+	public Order() {
+		super();
+		comments = new ArrayList<String>();
+		orderedItems = new ArrayList<OrderedItem>();
+	}
+	
+	// ------------ Attributes ------------ 
+	
+	private String ticker;
+	private Date placementMoment;
+	private Collection<String> comments;
+	private String consumerName;
+	private String address;
+	private CreditCard creditCard;
+	private Date deliveryMoment;
+	private Date cancellationMoment;
+	
+	// ------------ Relationships attributes ------------ 
+	
+	private Collection<OrderedItem> orderedItems;
+	private Consumer consumer;
+	private Clerk clerk;
+
+	
+	// ------------ Attributes getters and setters ------------ 
+
+	@Column(unique = true)
+	@NotBlank
+	@Pattern(regexp="\\d{6}\\-\\w{4}")
+	public String getTicker() {
+		return ticker;
+	}
+
+	public void setTicker(String ticker) {
+		this.ticker = ticker;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@Past
+	public Date getPlacementMoment() {
+		return placementMoment;
+	}
+
+	public void setPlacementMoment(Date placementMoment) {
+		this.placementMoment = placementMoment;
+	}
+	
+	@ElementCollection
+	@NotNull
+	public Collection<String> getComments() {
+		return comments;
+	}
+
+	public void setComments(Collection<String> comments) {
+		this.comments = comments;
+	}
+
+	@NotBlank
+	public String getConsumerName() {
+		return consumerName;
+	}
+
+	public void setConsumerName(String consumerName) {
+		this.consumerName = consumerName;
+	}
+
+	@NotBlank
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	@NotNull
+	@Valid
+	public CreditCard getCreditCard() {
+		return creditCard;
+	}
+
+	public void setCreditCard(CreditCard creditCard) {
+		this.creditCard = creditCard;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getDeliveryMoment() {
+		return deliveryMoment;
+	}
+
+	public void setDeliveryMoment(Date deliveryMoment) {
+		this.deliveryMoment = deliveryMoment;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getCancellationMoment() {
+		return cancellationMoment;
+	}
+
+	public void setCancellationMoment(Date cancellationMoment) {
+		this.cancellationMoment = cancellationMoment;
+	}
+	
+	// ------------ Relationships ------------ 
+	
+	@Valid
+	@ManyToOne(optional=false)
+	public Consumer getConsumer() {
+		return consumer;
+	}
+
+	public void setConsumer(Consumer consumer) {
+		this.consumer = consumer;
+	}
+
+	@Valid
+	@ManyToOne(optional=true)
+	public Clerk getClerk() {
+		return clerk;
+	}
+
+	public void setClerk(Clerk clerk) {
+		this.clerk = clerk;
+	}
+	
+	@Valid
+	@OneToMany(cascade = CascadeType.ALL)
+	public Collection<OrderedItem> getOrderedItems() {
+		return orderedItems;
+	}
+
+	public void setOrderedItems(Collection<OrderedItem> orderedItems) {
+		this.orderedItems = orderedItems;
+	}
+}

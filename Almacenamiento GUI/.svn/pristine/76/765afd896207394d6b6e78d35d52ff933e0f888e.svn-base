@@ -1,0 +1,53 @@
+package services;
+
+import java.util.Collection;
+
+import javax.transaction.Transactional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
+
+import repositories.ShoppingCartRepository;
+import security.Authority;
+import security.LoginService;
+import security.UserAccount;
+import domain.ShoppingCart;
+
+@Service
+@Transactional
+public class ShoppingCartService {
+	// Managed Repository ------------------------------
+	@Autowired
+	private ShoppingCartRepository shoppingCartRepository;
+	
+	// Supporting Services -----------------------------
+	
+	
+	// Constructors ------------------------------------
+	public ShoppingCartService(){
+		super();
+	}
+
+	
+	// Simple CRUD Methods -----------------------------
+	public ShoppingCart create(){
+		UserAccount user = LoginService.getPrincipal();
+		Assert.isTrue(user.getUsername().equals(Authority.CONSUMER));
+		return new ShoppingCart();
+		
+	}
+	
+	
+	public Collection<ShoppingCart> findAll(){
+		UserAccount user = LoginService.getPrincipal();
+		Assert.isTrue(user.getUsername().equals(Authority.CONSUMER));
+		return shoppingCartRepository.findAll();
+	}
+	
+	
+	// Other Business Methods ---------------------------
+	
+	
+
+}

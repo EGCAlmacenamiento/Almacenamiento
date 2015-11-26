@@ -1,0 +1,54 @@
+package services;
+
+import java.util.Collection;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
+
+import repositories.OrderRepository;
+import security.Authority;
+import security.LoginService;
+import security.UserAccount;
+import domain.Order;
+
+@Service
+@Transactional
+public class OrderService {
+	// Managed Repository ------------------------------
+	@Autowired
+	private OrderRepository orderRepository;
+
+	// Supporting Services -----------------------------
+
+	// Constructors ------------------------------------
+	public OrderService() {
+		super();
+	}
+
+	// Simple CRUD Methods -----------------------------
+	public Order create() {
+		return new Order();
+	}
+	
+	public void save(Order order){
+		orderRepository.save(order);
+	}
+	
+	public Collection<Order> findAll(){
+		UserAccount user = LoginService.getPrincipal();
+		Assert.isTrue(user.getUsername().equals(Authority.ADMIN));
+		return orderRepository.findAll();
+	}
+	
+	public void delete(Order order){
+		UserAccount user = LoginService.getPrincipal();
+		Assert.isTrue(user.getUsername().equals(Authority.CONSUMER));
+		orderRepository.delete(order);
+	}
+
+	// Other Business Methods ---------------------------
+	
+
+}

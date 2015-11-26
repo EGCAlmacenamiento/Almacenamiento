@@ -1,0 +1,44 @@
+package services;
+
+import javax.transaction.Transactional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
+
+import repositories.ItemStockInWarehouseRepository;
+import security.Authority;
+import utilities.DPUtils;
+import domain.ItemStockInWarehouse;
+
+@Service
+@Transactional
+public class ItemStockInWarehouseService {
+	// Managed Repository ------------------------------
+	@Autowired
+	private ItemStockInWarehouseRepository itemStockInWarehouseRepository;
+	
+	// Supporting Services -----------------------------
+	
+	
+	// Constructors ------------------------------------
+	public ItemStockInWarehouseService(){
+		super();
+	}
+	
+	
+	// Simple CRUD Methods -----------------------------
+	
+	// Other Business Methods ---------------------------
+	
+	
+	//REQ 17.5
+	// Change the quantity that a warehouse stores of a given item.
+	public void modifyQuantityItemInWarehouse(int itemId, int warehouseId ,int newQuantity){
+		Assert.isTrue(DPUtils.currentUserHasRole(Authority.ADMIN));
+		ItemStockInWarehouse itemStockInWarehouse = itemStockInWarehouseRepository.getItemStockInWarehouse(itemId, warehouseId);
+		itemStockInWarehouse.setQuantity(newQuantity);
+		itemStockInWarehouseRepository.save(itemStockInWarehouse);
+	}
+	
+}

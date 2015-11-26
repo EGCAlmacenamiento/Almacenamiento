@@ -1,0 +1,29 @@
+package services;
+
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import utils.AbstractTest;
+
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations= { "classpath:spring/datasource.xml", "classpath:spring/config/packages.xml"})
+
+public class ItemBasicTest extends AbstractTest{
+	
+	// Service under Test -----------------
+	@Autowired
+	private ItemService itemService;
+	
+	// Helper functions -------------------
+
+
+	@Test
+	public void test_findAllItems(){
+		authenticate(null);
+		System.out.println(itemService.getItemsGroupedByCategory());
+		
+	}
+}

@@ -1,0 +1,91 @@
+package services;
+
+import java.util.Collection;
+
+import javax.transaction.Transactional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
+
+import repositories.ItemStockInWarehouseRepository;
+import repositories.WarehouseRepository;
+import security.Authority;
+import security.LoginService;
+import security.UserAccount;
+import domain.ItemStockInWarehouse;
+import domain.Warehouse;
+
+@Service
+@Transactional
+public class WarehouseService {
+	// Managed Repository ------------------------------
+	@Autowired
+	private WarehouseRepository warehouseRepository;
+	
+	// Supporting Services -----------------------------
+	private ItemStockInWarehouseRepository itemStockInWarehouseRepository;
+	
+	// Constructors ------------------------------------
+	public WarehouseService(){
+		super();
+	}
+	
+	
+	// Simple CRUD Methods -----------------------------
+	public Warehouse create(){
+		UserAccount user = LoginService.getPrincipal();
+		Assert.isTrue(user.getUsername().equals(Authority.ADMIN));
+		return new Warehouse();
+	}
+	
+	public void delete(Warehouse warehouse){
+		UserAccount user = LoginService.getPrincipal();
+		Assert.isTrue(user.getUsername().equals(Authority.ADMIN));
+		warehouseRepository.delete(warehouse);
+	}
+	
+	
+	public Collection<Warehouse> findAll(){
+		UserAccount user = LoginService.getPrincipal();
+		Assert.isTrue(user.getUsername().equals(Authority.ADMIN) || user.getUsername().equals(Authority.CLERK) );
+		return warehouseRepository.findAll();
+	}
+	
+	public Warehouse findOne(int warehouseId){
+		return warehouseRepository.findOne(warehouseId);
+	}
+
+	public void save(Warehouse warehouse){
+		UserAccount user = LoginService.getPrincipal();
+		Assert.isTrue(user.getUsername().equals(Authority.ADMIN));
+		warehouseRepository.save(warehouse);
+	}
+	
+	// Other Business Methods ---------------------------
+	
+	
+	
+	//REQ 18.2
+	//Search for the warehouses that have at least one unit available of a given item. 
+	public Collection<Warehouse> getWarehousesAtLeastOneUnitAvaibable(int itemId){
+		UserAccount user = LoginService.getPrincipal();
+		Assert.isTrue(user.getUsername().equals(Authority.CLERK));
+		
+		Collection <ItemStockInWarehouse> allItemStockInWarehouse = itemStockInWarehouseRepository.getAllItemStockInWarehouse(itemId);
+		Collection <Warehouse> warehouseWithAtLeastOneItem = null;
+		
+		while(allItemStockInWarehouse.iterator().hasNext()){
+			ItemStockInWarehouse next = allItemStockInWarehouse.iterator().next();
+			if(next.getQuantity()>0){
+				warehouseWithAtLeastOneItem.add(warehouseRepository.getWarehouseOfItemStockInWarehouse(next.getId()));
+				
+			}
+			
+		}
+		
+		return warehouseWithAtLeastOneItem;
+		
+	}
+	
+}

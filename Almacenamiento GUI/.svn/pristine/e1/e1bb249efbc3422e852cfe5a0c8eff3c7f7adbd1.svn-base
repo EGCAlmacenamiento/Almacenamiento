@@ -1,0 +1,45 @@
+package services;
+
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import domain.Item;
+import domain.ItemStockInWarehouse;
+import domain.Warehouse;
+import utils.AbstractTest;
+
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations= { "classpath:spring/datasource.xml", "classpath:spring/config/packages.xml"})
+
+public class ItemStockInWarehouseBasicTest extends AbstractTest{
+	
+	// Service under Test -----------------
+	@Autowired
+	private ItemStockInWarehouseService itemStockInWarehouseService;
+	
+	// Helper functions -------------------
+	private ItemStockInWarehouse generateTestItemStockInWarehouse()
+	{
+		ItemStockInWarehouse ItemStockInWarehouse = new ItemStockInWarehouse();
+		
+		ItemStockInWarehouse.setItem(new Item());	
+		ItemStockInWarehouse.setQuantity(100);
+		ItemStockInWarehouse.setWarehouse(new Warehouse());
+	
+		
+		
+		
+		return ItemStockInWarehouse;
+	}
+
+	@Test
+	public void test_createItemStockInWarehouse(){
+		authenticate("admin1");
+		itemStockInWarehouseService.save(generateTestItemStockInWarehouse());
+		authenticate(null);
+		
+	}
+}

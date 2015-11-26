@@ -1,0 +1,23 @@
+package repositories;
+
+import java.util.Collection;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
+
+import domain.Item;
+
+@Repository
+public interface ItemRepository extends JpaRepository<Item, Integer>{
+	
+	@Query("select i from Item i where i.numSold=(select max(z.numSold) from Item z)")
+	public Collection<Item> bestSellerItems();
+
+	@Query("select i from Item i where i.numSold=(select min(z.numSold) from Item z)")
+	public Collection<Item> worstSellerItems();
+	
+	@Query("select i from Item i where i.deleted = false and (i.sku like '%?1%' or i.name like '%?1%' or i.description like '%?1%')")
+	public Collection<Item> searchByKeyword(String keyword);
+	
+}

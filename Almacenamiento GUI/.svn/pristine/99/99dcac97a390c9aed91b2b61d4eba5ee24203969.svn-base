@@ -1,0 +1,99 @@
+package services;
+
+
+import java.util.Collection;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
+
+import repositories.ConsumerRepository;
+import security.Authority;
+import utilities.DPUtils;
+import domain.Consumer;
+
+@Service
+@Transactional
+public class ConsumerService {
+	// Managed Repository ------------------------------
+	@Autowired
+	private ConsumerRepository consumerRepository;
+
+	// Supporting Services -----------------------------
+
+	// Constructors ------------------------------------
+	public ConsumerService() {
+		super();
+	}
+
+	// Simple CRUD Methods -----------------------------
+	public Consumer create() {
+		return new Consumer();
+	}
+	
+	public Consumer getConsumerById(int consumerId){
+		return consumerRepository.findOne(consumerId);
+	}
+
+	// REQ 10.1
+	// Register to the system as a consumer
+	
+	// REQ 11.1
+	// Do the same as a user who is not authenticated, except for registering to the system.
+	
+	// REQ 12.1
+	// Do the same as a user who is not authenticated, except for registering to the system.
+	public Consumer save(Consumer consumer) {
+		Assert.isTrue(!DPUtils.currentUserHasRole(Authority.ADMIN), "You are already registered.");
+		Assert.isTrue(!DPUtils.currentUserHasRole(Authority.CONSUMER), "You are already registered.");
+		Assert.isTrue(!DPUtils.currentUserHasRole(Authority.CLERK), "You are already registered.");
+
+		// Creamos el Authority Consumer
+		Authority authConsumer = new Authority();
+		authConsumer.setAuthority(Authority.CONSUMER);
+		
+		// Añadimos el Authority al Consumer.
+		consumer.getUserAccount().addAuthority(authConsumer);
+
+		// Guardamos en base de datos el consumer
+		return consumerRepository.save(consumer);
+	}
+	
+	// REQ 12.5
+	// List the consumers that are registered in the system.
+	public Collection<Consumer> findAll(){
+		Assert.isTrue(DPUtils.currentUserHasRole(Authority.ADMIN), "You don't have privileges to perform this action.");
+		return consumerRepository.findAll();
+	}
+	
+	// Other Business Methods ---------------------------
+	
+	//REQ 12.7.1
+	//The consumer/s who has/have placed more orders.
+	public Collection<Consumer> findTopOrdersConsumers() {
+		Assert.isTrue(DPUtils.currentUserHasRole(Authority.ADMIN), "You don't have privileges to perform this action.");
+		return consumerRepository.consumerMaxOrders();
+	}
+	
+	//REQ 12.7.2
+	//The consumer/s who has/have spent more money on their orders.
+	public Collection<Consumer> findTopSpentMoneyConsumers() {
+		Assert.isTrue(DPUtils.currentUserHasRole(Authority.ADMIN), "You don't have privileges to perform this action.");
+		return consumerRepository.consumerMaxSpentmoney();
+	}
+	
+	//REQ 17.6.3
+	//The consumer/s who has/have cancelled more orders.
+	public Collection<Consumer> findMoreCancelledOrdersConsumers() {
+		Assert.isTrue(DPUtils.currentUserHasRole(Authority.ADMIN), "You don't have privileges to perform this action.");
+		return consumerRepository.consumerMaxCancelledOrders();
+	}
+	
+	//REQ 17.6.4
+	//The consumer/s who has/have cancelled less orders.
+	public Collection<Consumer> findLessCancelledOrdersConsumers() {
+		Assert.isTrue(DPUtils.currentUserHasRole(Authority.ADMIN), "You don't have privileges to perform this action.");
+		return consumerRepository.consumerMinCancelledOrders();
+	}
+}

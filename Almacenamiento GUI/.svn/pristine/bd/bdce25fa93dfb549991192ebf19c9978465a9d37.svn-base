@@ -1,0 +1,69 @@
+package services;
+
+import java.util.Collection;
+
+import javax.transaction.Transactional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
+
+import repositories.ItemRepository;
+import security.Authority;
+import security.LoginService;
+import security.UserAccount;
+
+import com.lowagie.text.pdf.AcroFields.Item;
+
+@Service
+@Transactional
+public class ItemService {
+	// Managed Repository ------------------------------
+	@Autowired
+	private ItemRepository itemRepository;
+	
+	// Supporting Services -----------------------------
+	
+	
+	// Constructors ------------------------------------
+	public ItemService(){
+		super();
+	}
+	
+	
+	// Simple CRUD Methods -----------------------------
+	public Item create(){
+		UserAccount user = LoginService.getPrincipal();
+		Assert.isTrue(user.getUsername().equals(Authority.ADMIN));
+		return new Item();
+	}
+	
+	public void save(Item item){
+		UserAccount user = LoginService.getPrincipal();
+		Assert.isTrue(user.getUsername().equals(Authority.ADMIN));
+		itemRepository.save(item);
+	}
+	
+	public Collection<Item> findAll(){
+		return itemRepository.findAll();
+	}
+	
+	public void delete(Item bulletin){
+		UserAccount user = LoginService.getPrincipal();
+		Assert.isTrue(user.getUsername().equals(Authority.ADMIN));
+		itemRepository.delete(bulletin);
+	}
+	
+	
+	// Other Business Methods ---------------------------
+	
+	public Collection<Item> searchByKeyword(String keyword){
+		return itemRepository.searchByKeyword(keyword);
+	}
+	
+	public Collection<Item> getItemsGroupedByCategory(int idCategory){
+		return itemRepository.getItemsGroupedByCategory(idCategory);
+	}
+	
+
+}

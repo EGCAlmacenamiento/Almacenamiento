@@ -1,0 +1,46 @@
+# messages.properties
+#
+# Copyright (C) 2013 Universidad de Sevilla
+# 
+# The use of this project is hereby constrained to the conditions of the 
+# TDG Licence, a copy of which you may download from 
+# http://www.tdg-seville.info/License.html
+order.
+
+category.edit = Edit category
+category.cancel = Cancel category
+category.create = Create category
+category.save = Save category
+category.delete = Delete category
+category.confirm.delete = Confirm delete
+
+category.name				= Name
+category.description		= Description	
+category.picture			= Picture
+category.management			= Management
+
+category.commit.error 		= This operation cannot be committed
+category.commit.ok			= Operation performed successfully
+
+order.ticker = Ticker
+order.consumer = Consumer
+order.address = Address
+order.comments = Comments
+order.placementMoment = Placement moment
+order.deliveryMoment = Delivery moment
+
+administrator.dashboard.consumersMoreOrders		= Consumer(s) who have placed more orders
+administrator.dashboard.consumersMostMoney		= Consumer(s) who have spent most money
+administrator.dashboard.bestSellingItems 		= Best-Selling item(s)
+administrator.dashboard.worstSellingItems		= Worst-Selling item(s)
+administrator.dashboard.clerksMoreOrders 		= Clerk(s) who have served and delivered more orders
+administrator.dashboard.clerksLessOrders		= Clerk(s) who have served and delivered less orders
+administrator.dashboard.consumersMoreCancells 	= Consumer(s) who have cancelled more orders
+administrator.dashboard.consumersLessCancells 	= Consumer(s) who have cancelled less orders
+administrator.dashboard.cancelledOrderRatio 	= Ratio of orders cancelled this month
+
+administrator.dashboard.ordersPlaced 			= orders placed
+administrator.dashboard.spent 					= spent
+administrator.dashboard.unitsSold 				= units sold
+administrator.dashboard.ordersServed			= orders served
+administrator.dashboard.ordersCancelled			= orders cancelled

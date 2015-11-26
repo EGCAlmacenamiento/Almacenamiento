@@ -1,0 +1,64 @@
+package services;
+
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.util.Assert;
+
+import utilities.DPUtils;
+import utils.AbstractTest;
+import domain.Tax;
+
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations= { "classpath:spring/datasource.xml", "classpath:spring/config/packages.xml"})
+
+public class TaxBasicTest extends AbstractTest{
+	// Service under Test -----------------
+	@Autowired
+	private TaxService taxService;
+	
+	// Helper functions -------------------
+	private Tax generateTestTax() {
+		Tax tax = new Tax();
+		tax.setName("IVA1");
+		tax.setAmount(21);
+		return tax;
+	}
+
+	// TEST 12.3 - Manage a table of taxes, which includes creating, updating, and deleting them. 
+	// Only taxes that have never been used in an item can actually be deleted.
+	@Test
+	public void createTax(){
+		authenticate("admin1");
+		Tax tax = taxService.save(generateTestTax());
+		Assert.isTrue(tax.getId() != 0);
+		authenticate(null);
+	}
+	
+	@Test
+	public void updateTax(){
+		authenticate("admin1");
+		Tax tax = taxService.findAll().iterator().next();
+		Double oldAmount = tax.getAmount();
+		
+		tax.setAmount(oldAmount*2);
+		tax = taxService.save(tax);
+		
+		Assert.isTrue(tax.getAmount() == oldAmount*2);
+		authenticate(null);
+	}
+	
+	@Test
+	public void deleteTax(){
+		authenticate("admin1");
+		Tax tax = taxService.save(generateTestTax());
+		Assert.isTrue(tax.getId() != 0);
+		taxService.delete(tax);
+		
+		Assert.isTrue(!DPUtils.inCollection(taxService.findAll(), tax));
+
+		authenticate(null);
+	}
+}

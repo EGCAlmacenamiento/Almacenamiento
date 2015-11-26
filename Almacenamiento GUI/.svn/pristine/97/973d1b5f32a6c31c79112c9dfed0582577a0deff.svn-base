@@ -1,0 +1,44 @@
+package services;
+
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import domain.Tax;
+import utils.AbstractTest;
+
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations= { "classpath:spring/datasource.xml", "classpath:spring/config/packages.xml"})
+
+public class TaxBasicTest extends AbstractTest{
+	
+	// Service under Test -----------------
+	@Autowired
+	private TaxService taxService;
+	
+	// Helper functions -------------------
+	private Tax generateTestTax()
+	{
+		Tax tax = new Tax();
+		
+		
+		tax.setName("IVA1");
+		tax.setAmount(21);
+		tax.setId(101);
+		tax.setVersion(1);
+		
+		
+		return tax;
+	}
+
+	@Test
+	public void test_createTax(){
+		authenticate("admin1");
+		taxService.save(generateTestTax());
+		System.out.println();
+		authenticate(null);
+		
+	}
+}

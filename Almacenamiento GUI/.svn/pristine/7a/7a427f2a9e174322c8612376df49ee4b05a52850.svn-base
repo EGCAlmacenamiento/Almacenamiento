@@ -1,0 +1,158 @@
+package services;
+
+
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.util.Assert;
+
+import utils.AbstractTest;
+import domain.CreditCard;
+import domain.Item;
+import domain.ItemQuantityCart;
+import domain.Order;
+import domain.ShoppingCart;
+
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations= { "classpath:spring/datasource.xml", "classpath:spring/config/packages.xml"})
+public class ShoppingCartBasicTest extends AbstractTest {
+	
+	// Service under Test -----------------
+	@Autowired
+	private ShoppingCartService cartService;
+	
+	@Autowired
+	private ItemService itemService;
+	
+	// Helper functions -------------------
+	private CreditCard exampleCreditCard(){
+		CreditCard card = new CreditCard();
+		card.setBrandName("VISA");
+		card.setCvvCode(222);
+		card.setExpirationMonth(5);
+		card.setExpirationYear(2016);
+		card.setHolderName("consumer 555");
+		card.setNumber("5528838185627242");
+		return card;
+	}
+	
+	private ItemQuantityCart getItemQuantityCart(ShoppingCart cart, Item item){
+		ItemQuantityCart res = null;
+		
+		for(ItemQuantityCart itemCart : cart.getItemQuantityCart()){
+			if(itemCart.getItem().getId() == item.getId()){
+				res = itemCart;
+				break;
+			}
+		}
+		
+		return res;
+	}
+	
+	// TEST 11.2 - Displaying his or her shopping cart.
+	@Test
+	public void displayShoppingCart(){
+		authenticate("consumer1");
+		ShoppingCart cart = cartService.getShoppingCart();
+		Assert.isTrue(cart.getId() != 0);
+		authenticate(null);
+	}
+	
+	// TEST 11.3 - Add an item to his or her shopping cart. If an item is added to a shopping cart that already contains that item, 
+	// the quantity must be updated accordingly.
+	@Test
+	public void addItemToCart(){
+		Item testItem;
+		ItemQuantityCart before, after;
+		
+		authenticate("consumer1");
+		testItem = itemService.searchByKeyword("-").iterator().next();
+		
+		before = getItemQuantityCart(cartService.getShoppingCart(), testItem);
+		cartService.addItem(testItem);
+		
+		after = getItemQuantityCart(cartService.getShoppingCart(), testItem);
+
+		if(before == null){
+			Assert.isTrue(after.getItemQuantity() == 1);
+		} else {
+			Assert.isTrue((after.getItemQuantity() - before.getItemQuantity()) == 1); 
+		}
+		
+		authenticate(null);
+	}
+	
+	// TEST 11.4 - Change the quantity of an item in his or her shopping cart.
+	@Test
+	public void changeItemQuantityOnShoppingCart(){
+		authenticate("consumer1");
+		ShoppingCart testCart = cartService.getShoppingCart();
+		ItemQuantityCart testItem = testCart.getItemQuantityCart().iterator().next();
+		
+
+		
+		cartService.changeItemQuantity(testItem.getItem(), 4);
+		
+		testCart = cartService.getShoppingCart();
+		Assert.isTrue(testCart.getItemQuantityCart().iterator().next().getItemQuantity() == 4);
+		authenticate(null);
+	}
+	
+	// TEST 11.5 - Delete an item from his or her shopping cart.
+	@Test
+	public void deleteItemFromShoppingCart(){
+		authenticate("consumer1");
+		ShoppingCart testCart = cartService.getShoppingCart();
+		ItemQuantityCart testItem = testCart.getItemQuantityCart().iterator().next();
+		
+		cartService.deleteItem(testItem.getItem());
+		testCart = cartService.getShoppingCart();
+		
+		Assert.isNull(getItemQuantityCart(testCart, testItem.getItem()));
+		authenticate(null);
+	}
+	
+
+	// TEST 11.6 - Add, modify, or delete a comment to his or her shopping cart.
+	@Test
+	public void testAddComment() {
+		authenticate("consumer1");
+		cartService.addCommentToCart("bendiciones");
+		ShoppingCart testCart = cartService.getShoppingCart();
+		Assert.isTrue(testCart.getComments().contains("bendiciones"));
+		authenticate(null);
+	}
+	
+	@Test
+	public void testModifyComment() {
+		authenticate("consumer1");
+		cartService.addCommentToCart("bendiciones");
+		cartService.modifyComment("bendiciones", "salutaciones");
+		ShoppingCart testCart = cartService.getShoppingCart();
+		Assert.isTrue(testCart.getComments().contains("salutaciones"));
+		authenticate(null);
+	}
+	
+	@Test
+	public void testDeleteComment() {
+		authenticate("consumer1");
+		cartService.addCommentToCart("bendiciones");
+		cartService.deleteComment("bendiciones");
+		Assert.isTrue(!cartService.getShoppingCart().getComments().contains("bendiciones"));
+		authenticate(null);
+	}
+	
+	// TEST 11.7 - Check his or her shopping cart out and place the corresponding order.
+	@Test
+	public void checkoutOrder(){
+		authenticate("consumer1");
+		cartService.addItem(itemService.searchByKeyword("-").iterator().next());
+		Order order = cartService.checkOut(exampleCreditCard(), "Rue 13 del percebe");
+		Assert.isTrue(order.getId() != 0);
+		Assert.notEmpty(order.getOrderedItems());
+		authenticate(null);
+	}
+
+}

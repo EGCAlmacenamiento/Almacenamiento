@@ -1,0 +1,24 @@
+# messages_es.properties
+#
+# Copyright (C) 2013 Universidad de Sevilla
+# 
+# The use of this project is hereby constrained to the conditions of the 
+# TDG Licence, a copy of which you may download from 
+# http://www.tdg-seville.info/License.html
+
+
+administrator.dashboard.consumersMoreOrders		= Consumidor(es) que han realizado más pedidos
+administrator.dashboard.consumersMostMoney		= Consumidor(es) que han gastado más dinero
+administrator.dashboard.bestSellingItems 		= Item(s) más vendidos
+administrator.dashboard.worstSellingItems		= Item(s) menos vendidos
+administrator.dashboard.clerksMoreOrders 		= Empleado(s) que han entregado más pedidos
+administrator.dashboard.clerksLessOrders		= Empleado(s) que han entregado menos pedidos
+administrator.dashboard.consumersMoreCancells 	= Consumidor(es) que han cancelado más pedidos
+administrator.dashboard.consumersLessCancells 	= Consumidor(es) que han cancelado menos pedidos
+administrator.dashboard.cancelledOrderRatio 	= Porcentaje de pedidos cancelados este mes
+
+administrator.dashboard.ordersPlaced			= pedidos realizados
+administrator.dashboard.spent					= gastados
+administrator.dashboard.unitsSold				= unidades vendidas
+administrator.dashboard.ordersServed			= pedidos enviados
+administrator.dashboard.ordersCancelled			= pedidos cancelados

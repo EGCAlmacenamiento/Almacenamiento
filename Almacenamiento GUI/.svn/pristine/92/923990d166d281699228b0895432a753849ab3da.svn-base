@@ -1,0 +1,79 @@
+package services;
+
+import java.util.Collection;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
+
+import repositories.ClerkRepository;
+import security.Authority;
+import utilities.DPMessage;
+import utilities.DPUtils;
+import domain.Clerk;
+
+@Service
+@Transactional
+public class ClerkService{
+	// Managed Repository ------------------------------
+	@Autowired
+	private ClerkRepository clerkRepository;
+	
+
+	// Supporting Services -----------------------------
+	
+
+	// Constructors ------------------------------------
+	public ClerkService() {
+		super();
+	}
+
+	// Simple CRUD Methods -----------------------------
+	
+	public Clerk findClerkById(Integer id) {
+		Assert.isTrue(DPUtils.hasRole(Authority.ADMIN, Authority.CLERK), DPMessage.NO_PERMISSIONS);
+		return clerkRepository.findOne(id);
+	}
+	
+	public Clerk findClerkByUserAccountId(Integer id) {
+		Assert.isTrue(DPUtils.hasRole(Authority.ADMIN, Authority.CLERK), DPMessage.NO_PERMISSIONS);
+		return clerkRepository.findByUserAccountId(id);
+	}
+
+	public Clerk create() {
+		return new Clerk();
+	}
+
+	public Clerk save(Clerk clerk) {
+		Assert.isTrue(DPUtils.hasRole(Authority.ADMIN), DPMessage.NO_PERMISSIONS);
+		return clerkRepository.save(clerk);
+	}
+	
+	// REQ 17.1 - Register a new clerk to the system
+	public void registerNewClerk(Clerk clerk) {
+		Assert.isTrue(DPUtils.hasRole(Authority.ADMIN), DPMessage.NO_PERMISSIONS);
+		Authority clerkAuthority = new Authority();
+		
+		if(!clerk.getUserAccount().getAuthorities().contains(clerkAuthority)){
+			clerk.getUserAccount().addAuthority(clerkAuthority);			
+		}
+		
+		clerk.getUserAccount().addAuthority(clerkAuthority);
+		save(clerk);
+	}
+
+	// Other Business Methods ---------------------------
+	
+	// REQ 17.6.1 - The clerk/s who has/have served and delivered more orders
+	public Collection<Clerk> findClerkMoreServedOrders() {
+		Assert.isTrue(DPUtils.hasRole(Authority.ADMIN), DPMessage.NO_PERMISSIONS);
+		return clerkRepository.clerkMaxOrders();
+	}
+	
+	// REQ 17.6.2 - The clerk/s who has/have served and delivered les orders
+	public Collection<Clerk> findClerkLessServedOrders() {
+		Assert.isTrue(DPUtils.hasRole(Authority.ADMIN), DPMessage.NO_PERMISSIONS);
+		return clerkRepository.clerkMinOrders();
+	}
+}

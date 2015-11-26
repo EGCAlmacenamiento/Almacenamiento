@@ -1,0 +1,43 @@
+package services;
+
+import javax.transaction.Transactional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
+
+import repositories.ClerkRepository;
+import security.Authority;
+import security.LoginService;
+import security.UserAccount;
+import domain.Clerk;
+
+@Service
+@Transactional
+public class ClerkService {
+	// Managed Repository ------------------------------
+	@Autowired
+	private ClerkRepository clerkRepository;
+	
+	// Supporting Services -----------------------------
+	
+	
+	// Constructors ------------------------------------
+	public ClerkService(){
+		super();
+	}
+	
+	
+	// Simple CRUD Methods -----------------------------
+	public Clerk create(){
+		return new Clerk();
+	}
+
+	public void save(Clerk clerk){
+		UserAccount user = LoginService.getPrincipal();
+		Assert.isTrue(user.getUsername().equals(Authority.ADMIN));
+		clerkRepository.save(clerk);
+	}
+	
+	// Other Business Methods ---------------------------
+}

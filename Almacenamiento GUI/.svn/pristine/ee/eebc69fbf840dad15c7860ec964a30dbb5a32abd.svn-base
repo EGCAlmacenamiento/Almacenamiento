@@ -1,0 +1,91 @@
+package services;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.util.Assert;
+
+import utils.AbstractTest;
+import domain.ItemStockInWarehouse;
+import domain.Warehouse;
+
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations= { "classpath:spring/datasource.xml", "classpath:spring/config/packages.xml"})
+
+public class WarehouseBasicTest extends AbstractTest{
+	
+	// Service under Test -----------------
+	@Autowired
+	private WarehouseService warehouseService;
+	
+	// Helper functions -------------------
+	private Warehouse generateTestWarehouse()
+	{
+		Warehouse Warehouse = new Warehouse();
+		
+		Collection<ItemStockInWarehouse> collectionItemStockInWarehouse = new ArrayList<ItemStockInWarehouse>();
+		Warehouse.setName("Warehouse_test");
+		Warehouse.setAddress("Av. Reina Mercedes");
+		Warehouse.setItemStockInWarehouse(collectionItemStockInWarehouse);
+		
+		
+		return Warehouse;
+	}
+
+	@Test
+	public void test_createWarehouse(){
+		Warehouse w;
+		
+		authenticate("admin1");
+		w = warehouseService.save(generateTestWarehouse());
+		Assert.isTrue(w.getId() != 0);
+		authenticate(null);
+		
+	}
+	
+	@Test
+	public void test_listWarehouseWithItemStock() {
+		authenticate("clerk1");
+		Collection<Warehouse> c = warehouseService.getWarehousesAtLeastOneUnitAvaibable(42);
+		Assert.isTrue(c.size() == 3);
+		List<Integer> ids = new ArrayList<>();
+		ids.add(53);
+		ids.add(54);
+		ids.add(55);
+		for(Warehouse w : c) {
+			Assert.isTrue(ids.contains(w.getId()));
+			ids.remove((Integer) w.getId());
+		}
+		authenticate(null);
+	}
+	
+	@Test
+	public void test_editWarehouse() {
+		authenticate("admin1");
+		Warehouse warehouse = warehouseService.findAll().iterator().next();
+		int id = warehouse.getId();
+		warehouse.setName("nombreTest");
+		warehouse.setAddress("direccionTest");
+		warehouseService.save(warehouse);
+		
+		boolean found = false;
+		for(Warehouse w : warehouseService.findAll()) {
+			if(w.getId() == id) {
+				Assert.isTrue(w.getName().equals("nombreTest"));
+				Assert.isTrue(w.getAddress().equals("direccionTest"));
+				found = true;
+				break;
+			}
+		}
+		
+		Assert.isTrue(found);
+		
+		authenticate(null);
+	}
+}

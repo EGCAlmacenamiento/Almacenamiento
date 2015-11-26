@@ -1,0 +1,21 @@
+package repositories;
+
+import java.util.Collection;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
+
+import domain.ItemQuantityCart;
+
+@Repository
+public interface ItemQuantityCartRepository extends	JpaRepository<ItemQuantityCart, Integer> {
+	
+	@Query("select i from ItemQuantityCart i where i.item = ?1 and i.shoppingCart = ?2")
+	public ItemQuantityCart getItemQuantityInCart(int itemId, int cartId);
+	
+	@Query("select i from ItemQuantityCart i where i.shoppingCart = ?1")
+	public Collection<ItemQuantityCart> getAllItemsInCart(int cartId);
+	
+
+}

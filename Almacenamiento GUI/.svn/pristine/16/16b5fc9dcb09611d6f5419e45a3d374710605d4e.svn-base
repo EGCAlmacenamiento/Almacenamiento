@@ -1,0 +1,30 @@
+package services;
+
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.util.Assert;
+
+import utils.AbstractTest;
+
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations= { "classpath:spring/datasource.xml", "classpath:spring/config/packages.xml"})
+
+public class OrderBasicTest extends AbstractTest{
+	
+	// Service under Test -----------------
+	@Autowired
+	private OrderService orderService;
+	
+	
+	// Tests ------------------------------
+	// TEST 12.6 - List the orders that have been placed in the system.
+	@Test
+	public void listOrders(){
+		authenticate("admin1");
+		Assert.notEmpty(orderService.findAll());
+		authenticate(null);
+	}
+}
