@@ -2,13 +2,13 @@ DROP TABLE IF EXISTS `Votes`;
 DROP TABLE IF EXISTS `Votacion`;
 
 CREATE TABLE `Votacion` (
-	`votacion_id`  int(11) NOT NULL AUTO_INCREMENT,
+	`votacion_id`  int(11) NOT NULL,
 	`name` text NOT NULL,
 	PRIMARY KEY (votacion_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `Votes` (
-  `vote_id` int(11) NOT NULL AUTO_INCREMENT,
+  `vote_id` int(11) NOT NULL,
   `vote` text NOT NULL,
   `votation_id` int(11) NOT NULL,
   `latitud` double NOT NULL,
@@ -20,11 +20,29 @@ CREATE TABLE `Votes` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- Procedimiento Creacion Votacion y Voto
-DROP PROCEDURE IF EXISTS `InsertarVotacionVoto`;
+DROP PROCEDURE IF EXISTS `InsertarVoto`;
+DROP PROCEDURE IF EXISTS `InsertarVotacion`;
 
 DELIMITER //
+	
+CREATE PROCEDURE InsertarVotacion
+(
+	IN votacionName VARCHAR(100)
+)
+BEGIN
+	DECLARE votacionId INT;
 
-CREATE PROCEDURE InsertarVotacionVoto
+	SELECT COUNT(*)+1 INTO votacionId FROM Votacion;
+	INSERT INTO Votacion VALUES(votacionId, votacionName);
+    
+END
+//
+
+DELIMITER ;
+
+DELIMITER //
+	
+CREATE PROCEDURE InsertarVoto
 (
 	IN votacionName VARCHAR(100), 
 	IN voto VARCHAR(100), 
@@ -32,18 +50,15 @@ CREATE PROCEDURE InsertarVotacionVoto
 	IN longitud double
 )
 BEGIN
-	DECLARE votacionId INT DEFAULT null;
+	DECLARE votacionId INT;
+	DECLARE votId1 INT;
 
-	SELECT votacion_id INTO votacionId FROM Votacion WHERE name like votacionName;
-	IF votacionId = null THEN
-		INSERT INTO Votacion VALUES(votacionName);
-		SELECT LAST_INSERT_ID() as votId FROM Votacion;
-		INSERT INTO Votes values(voto, votId, latitud, longitud);
-	ELSE
-		SELECT LAST_INSERT_ID() as votId FROM Votacion;
-		INSERT INTO Votes values(voto, votId, latitud, longitud);
-    END IF;
+	SELECT votacion_id INTO votacionId FROM `Votacion` WHERE name like votacionName;
+		
+	SELECT COUNT(*)+1 INTO votId1 FROM Votes;
+	INSERT INTO Votes values(votId1, voto, votacionId, latitud, longitud);
+    
 END
-
 //
+
 DELIMITER ;
