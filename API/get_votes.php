@@ -4,19 +4,19 @@ try{
 
 header("Content-Type:application/json");
 
-$servername = "127.7.219.2";
-$username = "adminlg4UZhi";
-$password = "FvNTkqswPP5i";
-$dbname = "php";
+$servername = "127.5.206.130";
+$username = "adminu53jgvt";
+$password = "liLgGmnyn5c1";
+$dbname = "egcphp";
 $votation = intval($_GET["votation_id"]);
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 
-if ($votation === 0 || $conn->connect_error) {
+if ($votation == 0 || $conn->connect_error) {
     throw new Exception;
 } 
 
-$sql = "SELECT vote FROM Votes WHERE votation_id = '$votation'";
+$sql = "SELECT vote FROM Votes WHERE votation_id = '".$votationName."'";
 $result = $conn->query($sql);
 
 $votes = array();
