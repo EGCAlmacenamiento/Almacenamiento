@@ -11,8 +11,7 @@ CREATE TABLE `Votes` (
   `vote_id` int(11) NOT NULL,
   `vote` text NOT NULL,
   `votation_id` int(11) NOT NULL,
-  `latitud` double NOT NULL,
-  `longitud` double NOT NULL,
+  `cod_pos` int(6) NOT NULL,
   PRIMARY KEY (vote_id),
   FOREIGN KEY (votation_id) 
         REFERENCES Votacion(votacion_id)
@@ -45,9 +44,8 @@ DELIMITER //
 CREATE PROCEDURE InsertarVoto
 (
 	IN votacionName VARCHAR(100), 
-	IN voto VARCHAR(100), 
-	IN latitud double, 
-	IN longitud double
+	IN voto VARCHAR(100),  
+	IN codPos INT(6)
 )
 BEGIN
 	DECLARE votacionId INT;
@@ -56,7 +54,7 @@ BEGIN
 	SELECT votacion_id INTO votacionId FROM `Votacion` WHERE name like votacionName;
 		
 	SELECT COUNT(*)+1 INTO votId1 FROM Votes;
-	INSERT INTO Votes values(votId1, voto, votacionId, latitud, longitud);
+	INSERT INTO Votes values(votId1, voto, votacionId, codPos);
     
 END
 //
