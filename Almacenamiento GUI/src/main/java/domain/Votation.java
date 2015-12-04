@@ -68,7 +68,7 @@ public class Votation extends DomainEntity {
 
 	// Relationships ----------------------------------------------------------
 	@Valid
-	@OneToMany(cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "votation", cascade = CascadeType.ALL)
 	public Collection<Vote> getVotes() {
 		return votes;
 	}
