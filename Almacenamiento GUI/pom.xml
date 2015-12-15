@@ -90,6 +90,13 @@
 
 	<!-- Repositories to download components -->
 
+<distributionManagement>
+    <repository>
+      <id>internal.repo</id>
+      <name>MyCo Internal Repository</name>
+      <url>http://repo.maven.apache.org/maven2</url>
+    </repository>
+  </distributionManagement>
 	<repositories>
 
 		<!-- Spring repository -->
