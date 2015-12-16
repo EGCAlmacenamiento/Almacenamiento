@@ -16,19 +16,18 @@ if ($votation == 0 || $conn->connect_error) {
     throw new Exception;
 } 
 
-$sql = "SELECT vote FROM Votes WHERE votation_id = '".$votationName."'";
+$sql = "SELECT vote FROM Votes WHERE votation_id = '".$votation."'";
 $result = $conn->query($sql);
 
-$votes = array();
-if ($result->num_rows > 0) {
-    while($row = $result->fetch_assoc()) {
-        $votes[] = $row["vote"];
-    }
-}
+$row = $result->fetch_assoc();
+echo $row;
 
-echo json_encode(array("votes"=>$votes, "msg" => 1));
+
+
+
+
 $conn->close();
-}catch(Exception $e){echo json_encode(array("msg"=>0));}
+}catch(Exception $e){echo "error -> " + $e ;}
 die();
 
 ?>
