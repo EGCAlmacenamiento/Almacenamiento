@@ -20,7 +20,7 @@
 
 	<bean id="userAccountAdmin1" class="security.UserAccount">
 		<property name="username" value="admin1" />
-		<property name="password" value="809de24a899df869582ad740ae6514a1" />
+		<property name="password" value="e00cf25ad42683b3df678c61f42c6bda" />
 		
 		<property name="authorities">
 			<list>
@@ -33,7 +33,7 @@
 
 	<bean id="userAccountAdmin2" class="security.UserAccount">
 		<property name="username" value="admin2" />
-		<property name="password" value="59b66478c2415771283a90dd58ec45ca" />
+		<property name="password" value="c84258e9c39059a89ab77d846ddab909" />
 		<property name="authorities">
 			<list>
 				<bean class="security.Authority">
@@ -75,6 +75,13 @@
 	<bean id="votation3" class="domain.Votation">
 		<property name="name" value="VotationPP" />
 		<property name="moment" value="08/08/2015 16:37"/>
+	</bean>
+	
+	<bean id="vote1" class="domain.Vote">
+		<property name="vote" value="ovjnefojgbwei" />
+		<property name="location" value="41006" />		
+		<property name="moment" value="08/08/2015 16:37"/>
+		<property name="votation" ref = "votation1"/>
 	</bean>
 
 </beans>
