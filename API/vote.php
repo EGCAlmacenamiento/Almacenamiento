@@ -6,8 +6,7 @@ try{
 
 	$votationName = $_POST["votationName"]);
 	$vote = $_POST["vote"];
-	$latitud = $_POST["latitud"];
-	$longitud = $_POST["longitud"];
+	$codpos = $_POST["codpos"];
 	$servername = "127.5.206.130";
 	$username = "adminu53jgvt";
 	$password = "liLgGmnyn5c1";
