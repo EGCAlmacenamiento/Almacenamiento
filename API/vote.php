@@ -2,11 +2,11 @@
 
 try{
 
-	header("Content-Type:application/json");
+	//header("Content-Type:application/json");
 
-	$votationName = $_POST["votationName"]);
-	$vote = $_POST["vote"];
-	$codpos = $_POST["codpos"];
+	$votationName = htmlspecialchars($_POST['votationName']);
+	$vote = htmlspecialchars($_POST["vote"]);
+	$zipcode = htmlspecialchars($_POST["zipcode"]);
 	$servername = "127.5.206.130";
 	$username = "adminu53jgvt";
 	$password = "liLgGmnyn5c1";
@@ -14,21 +14,26 @@ try{
 
 	$conn = new mysqli($servername, $username, $password, $dbname);
 
-	if ($votation_id == 0 || $conn->connect_error) {
+	if ($conn->connect_error) {
 		throw new Exception;
 	}
 	
-	$sql = "SELECT votation_id FROM Votacion WHERE name like '".$votationName."'";
+	$sql = "SELECT votation_id FROM Votation WHERE name like '".$votationName."'";
 	$result = $conn->query($sql);
-	if ($result = null){
-		$result1 = $conn->exec("call InsertarVotacion ('".$votationName."')");
+	if ($result->num_rows == 0){
+		$result1 = $conn->query("call InsertVotation('".$votationName."')");
 	}
 	
-	$result = $conn->exec("call InsertarVoto ('".$votationName."', '".$vote."', '".$latitud."', '".$longitud."')");
-	echo json_encode(array("msg"=>"1"));
+	$result = $conn->query("call InsertVote('".$votationName."', '".$vote."', '".$zipcode."')");
+	//echo json_encode(array("msg"=>"1"));ç
+	
+
+	echo "voto insertado correctamente";	
+
 	$conn->close();
 }catch(Exception $e){
-	echo json_encode(array("msg"=>0));
+	//echo json_encode(array("msg"=>0));
+	echo "error al insertar el voto";
 }
 die();
 
