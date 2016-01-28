@@ -2,39 +2,39 @@
 
 try{
 
-header("Content-Type:application/json");
+	header("Content-Type:application/json");
 
-$servername = "127.5.206.130";
-$username = "adminu53jgvt";
-$password = "liLgGmnyn5c1";
-$dbname = "egcphp";
-$votation = intval($_GET["votation_id"]);
+	//$servername = "127.5.206.130";
+	//$username = "adminu53jgvt";
+	//$password = "liLgGmnyn5c1";
+	//$dbname = "egcphp";
 
-$conn = new mysqli($servername, $username, $password, $dbname);
+	$votation = intval($_GET["votation_id"]);
+	include ('config.inc');
 
-if ($votation == 0 || $conn->connect_error) {
-    throw new Exception;
-} 
+	$conn = new mysqli($servername, $username, $password, $dbname);
 
-$sql = "SELECT vote FROM Votes WHERE votation_id = '".$votation."'";
-$result = $conn->query($sql);
+	if ($votation == 0 || $conn->connect_error) {
+		throw new Exception;
+	} 
 
-$votes = array();
-if ($result->num_rows > 0) {
-    while($row = $result->fetch_assoc()) {
-        $votes[] = $row["vote"];
-    }
+	$sql = "SELECT vote FROM Votes WHERE votation_id = '".$votation."'";
+	$result = $conn->query($sql);
+
+	$votes = array();
+	if ($result->num_rows > 0) {
+		while($row = $result->fetch_assoc()) {
+			$votes[] = $row["vote"];
+		}
+	}
+
+	//print_r( array_values($votes));
+	echo json_encode($votes);
+
+	$conn->close();
+}catch(Exception $e){
+	echo "error -> " + $e ;
 }
-
-//print_r( array_values($votes));
-echo json_encode($votes);
-
-
-
-
-
-$conn->close();
-}catch(Exception $e){echo "error -> " + $e ;}
 die();
 
 ?>

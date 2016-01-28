@@ -7,10 +7,7 @@ try{
 	$votationName = htmlspecialchars($_POST['votationName']);
 	$vote = htmlspecialchars($_POST["vote"]);
 	$zipcode = htmlspecialchars($_POST["zipcode"]);
-	$servername = "127.5.206.130";
-	$username = "adminu53jgvt";
-	$password = "liLgGmnyn5c1";
-	$dbname = "egcphp";
+	include ('config.inc');
 
 	$conn = new mysqli($servername, $username, $password, $dbname);
 
