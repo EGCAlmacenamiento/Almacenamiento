@@ -7,7 +7,7 @@ try{
 	$votationName = htmlspecialchars($_POST['votationName']);
 	$vote = htmlspecialchars($_POST["vote"]);
 	$zipcode = htmlspecialchars($_POST["zipcode"]);
-	include ('config.inc');
+	include ('ocultos/config.inc');
 
 	$conn = new mysqli($servername, $username, $password, $dbname);
 

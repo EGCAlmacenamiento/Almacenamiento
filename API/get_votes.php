@@ -10,7 +10,7 @@ try{
 	//$dbname = "egcphp";
 
 	$votation = intval($_GET["votation_id"]);
-	include ('config.inc');
+	include ('ocultos/config.inc');
 
 	$conn = new mysqli($servername, $username, $password, $dbname);
 
