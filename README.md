@@ -16,8 +16,8 @@ Subsistema dedicado al almacenamiento de las votaciones y los votos cifrados en 
 <h1>Subsistemas Relacionados</h1>
 
 <ul>
-	<li>Cabina de votación <https://github.com/AgoraUS1516/G07></li>
-	<li>Recuento de votos <https://github.com/AgoraUS1516/G01></li>
+	<li>Cabina de votación https://github.com/AgoraUS1516/G07</li>
+	<li>Recuento de votos https://github.com/AgoraUS1516/G01</li>
 </ul>
 
 <h1>Funcionamiento de la API</h1>
@@ -26,7 +26,7 @@ Subsistema dedicado al almacenamiento de las votaciones y los votos cifrados en 
 
 <ul>
 	<li>Descripcíon: Método que realizando un POST, inserta votos en una votación. Si la votación no existiese, la crearía primero, si no, inserta.</li>
-	<li>URL: <https://egcphp-alm1516.rhcloud.com/API/vote.php></li>
+	<li>URL: https://egcphp-alm1516.rhcloud.com/API/vote.php</li>
 	<li>Variables a rellenar: votationName, vote, zipcode</li>
 </ul>
 
@@ -41,10 +41,10 @@ Subsistema dedicado al almacenamiento de las votaciones y los votos cifrados en 
 <h1>Herramientas utilizadas</h1>
 
 <ul>
-<li>GitHub</li>
-<li>Spring</li>
-<li>Java</li>
-<li>PHP</li>
-<li>HTML/CSS</li>
-<li>MySQL</li>
+	<li>GitHub</li>
+	<li>Spring</li>
+	<li>Java</li>
+	<li>PHP</li>
+	<li>HTML/CSS</li>
+	<li>MySQL</li>
 </ul>
