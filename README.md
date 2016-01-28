@@ -1,8 +1,9 @@
-Almacenamiento de votos
+<h1>Almacenamiento de votos</h1>
 
 <h1>Definición</h1>
 
 Subsistema dedicado al almacenamiento de las votaciones y los votos cifrados en AGORA@US.
+Enlace a la pagina de información del grupo: http://egcphp-alm1516.rhcloud.com
 
 <h1>Miembros</h1>
 
