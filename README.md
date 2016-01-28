@@ -1,40 +1,50 @@
 Almacenamiento de votos
 
-Definición
+<h1>Definición</h1>
 
 Subsistema dedicado al almacenamiento de las votaciones y los votos cifrados en AGORA@US.
 
-Miembros
+<h1>Miembros</h1>
 
-Manuel Juan Revilla Lobo: Coordinador
-Joaquín Vázquez Galbarro
-Francisco Valle Pinar
-Andrés López Albín
+<ul>
+	<li>Manuel Juan Revilla Lobo: Coordinador</li>
+	<li>Joaquín Vázquez Galbarro</li>
+	<li>Francisco Valle Pinar</li>
+	<li>Andrés López Albín</li>
+</ul>
 
-Subsistemas Relacionados
+<h1>Subsistemas Relacionados</h1>
 
-*Cabina de votación https://github.com/AgoraUS1516/G07
-*Recuento de votos https://github.com/AgoraUS1516/G01
+<ul>
+	<li>Cabina de votación <https://github.com/AgoraUS1516/G07></li>
+	<li>Recuento de votos <https://github.com/AgoraUS1516/G01></li>
+</ul>
 
-Funcionamiento de la API
+<h1>Funcionamiento de la API</h1>
 
-Inserción de Votos:
+<b>Inserción de Votos:</b>
 
-*Descripcíon: Método que realizando un POST, inserta votos en una votación. Si la votación no existiese, la crearía primero, si no, inserta.
-*URL: https://egcphp-alm1516.rhcloud.com/API/vote.php
-*Variables a rellenar: votationName, vote, zipcode
+<ul>
+	<li>Descripcíon: Método que realizando un POST, inserta votos en una votación. Si la votación no existiese, la crearía primero, si no, inserta.</li>
+	<li>URL: <https://egcphp-alm1516.rhcloud.com/API/vote.php></li>
+	<li>Variables a rellenar: votationName, vote, zipcode</li>
+</ul>
 
-Devolución de Votos:
+<b>Devolución de Votos:</b>
 
-*Descripcíon: Método que a partir de un ID de votación devuelve los votos
-*URL: https://egcphp-alm1516.rhcloud.com/API/get_votes.php?votation_id=X (Donde X sera el ID de la votationName que hayamos introducido anteriormente)
-*Ejemplo de resultado: ["SI","SI","NO","SI"] (Estos votos realmente estarán encriptados)
+<ul>
+	<li>Descripcíon: Método que a partir de un ID de votación devuelve los votos</li>
+	<li>URL: https://egcphp-alm1516.rhcloud.com/API/get_votes.php?votation_id=X (Donde X sera el ID de la votationName que hayamos introducido anteriormente)</li>
+	<li>Ejemplo de resultado: ["SI","SI","NO","SI"] (Estos votos realmente estarán encriptados)</li>
+</ul>
 
-Herramientas utilizadas
+<h1>Herramientas utilizadas</h1>
 
-*GitHub
-*Spring
-*Java
-*PHP
-*HTML/CSS
-*MySQL
+<ul>
+<li>GitHub</li>
+<li>Spring</li>
+<li>Java</li>
+<li>PHP</li>
+<li>HTML/CSS</li>
+<li>MySQL</li>
+</ul>
