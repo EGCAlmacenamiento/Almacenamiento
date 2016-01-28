@@ -9,6 +9,9 @@ try{
 	$zipcode = htmlspecialchars($_POST["zipcode"]);
 	include ('ocultos/config.inc');
 
+	// Encriptado con AES_ENCRYPT
+	$vote = AES_ENCRYPT($vote, $key_AES);
+	
 	$conn = new mysqli($servername, $username, $password, $dbname);
 
 	if ($conn->connect_error) {

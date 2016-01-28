@@ -4,11 +4,6 @@ try{
 
 	header("Content-Type:application/json");
 
-	//$servername = "127.5.206.130";
-	//$username = "adminu53jgvt";
-	//$password = "liLgGmnyn5c1";
-	//$dbname = "egcphp";
-
 	$votation = intval($_GET["votation_id"]);
 	include ('ocultos/config.inc');
 
@@ -18,7 +13,8 @@ try{
 		throw new Exception;
 	} 
 
-	$sql = "SELECT vote FROM Votes WHERE votation_id = '".$votation."'";
+	// Desencriptado con AES_ENCRYPT
+	$sql = "SELECT CAST(AES_DECRYPT(vote, '".$key_AES."') AS CHAR(50)) FROM Votes WHERE votation_id = '".$votation."'";
 	$result = $conn->query($sql);
 
 	$votes = array();
