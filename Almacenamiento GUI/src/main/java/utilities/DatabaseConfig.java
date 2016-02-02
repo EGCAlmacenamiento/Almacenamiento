@@ -2,6 +2,6 @@ package utilities;
 
 public interface DatabaseConfig {
 
-	public final String PersistenceUnit = "Acme-Supermarket";
+	public final String PersistenceUnit = "almacenamientobd";
 	
 }

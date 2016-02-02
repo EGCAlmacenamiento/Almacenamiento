@@ -26,9 +26,9 @@ public class AbstractTest {
 
 	@Autowired
 	private LoginService loginService;
-	
+
 	// Set up and tear down -------------------------------
-	
+
 	@Before
 	public void setUp() {
 		PopulateDatabase.main(null);
@@ -40,16 +40,21 @@ public class AbstractTest {
 		UserDetails userDetails;
 		TestingAuthenticationToken authenticationToken;
 		SecurityContext context;
-	
+
 		if (username == null)
 			authenticationToken = null;
 		else {
 			userDetails = loginService.loadUserByUsername(username);
-			authenticationToken = new TestingAuthenticationToken(userDetails, null);		    
+			authenticationToken = new TestingAuthenticationToken(userDetails,
+					null);
 		}
-		
+
 		context = SecurityContextHolder.getContext();
 		context.setAuthentication(authenticationToken);
+	}
+
+	public void unauthenticate() {
+		authenticate(null);
 	}
 
 }
