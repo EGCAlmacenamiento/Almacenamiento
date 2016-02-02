@@ -14,15 +14,13 @@ try{
 	} 
 
 	// Desencriptado con AES_ENCRYPT
-	//$sql = "SELECT CAST(AES_DECRYPT(vote, '".$key_AES."') AS CHAR(50)) FROM Votes WHERE votation_id = '".$votation."'";
-	$sql = "SELECT vote FROM Votes WHERE votation_id = '".$votation."'";
+	$sql = "SELECT CAST(AES_DECRYPT(vote, '".$key_AES."') AS CHAR(50)) AS vote FROM Votes WHERE votation_id = '".$votation."'";
 	$result = $conn->query($sql);
 
 	$votes = array();
 	if ($result->num_rows > 0) {
 		while($row = $result->fetch_assoc()) {
-			//$votes[] = $row["vote"];
-			$votes[] = CAST(AES_DECRYPT($row["vote"], '".$key_AES."') AS CHAR(50));
+			$votes[] = $row["vote"];
 		}
 	}
 
@@ -36,3 +34,4 @@ try{
 die();
 
 ?>
+

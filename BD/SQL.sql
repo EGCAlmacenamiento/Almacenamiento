@@ -9,9 +9,9 @@ CREATE TABLE `Votation` (
 
 CREATE TABLE `Votes` (
   `vote_id` int(11) NOT NULL,
-  `vote` text NOT NULL,
+  `vote` varbinary(32) NOT NULL,
   `votation_id` int(11) NOT NULL,
-  `zip_code` int(6) NOT NULL,
+  `zipcode` int(6) NOT NULL,
   PRIMARY KEY (vote_id),
   FOREIGN KEY (votation_id) 
         REFERENCES Votation(votation_id)
@@ -45,7 +45,8 @@ CREATE PROCEDURE InsertVote
 (
 	IN votationName VARCHAR(100), 
 	IN vote VARCHAR(100),  
-	IN zipCode INT(6)
+	IN zipcode INT(6),
+	IN key_AES TEXT(10)
 )
 BEGIN
 	DECLARE votationId INT;
@@ -54,7 +55,7 @@ BEGIN
 	SELECT votation_id INTO votationId FROM `Votation` WHERE name like votationName;
 		
 	SELECT COUNT(*)+1 INTO votId1 FROM Votes;
-	INSERT INTO Votes values(votId1, vote, votationId, zipCode);
+	INSERT INTO Votes values(votId1, AES_ENCRYPT(vote, key_AES), votationId, zipcode);
     
 END
 //
