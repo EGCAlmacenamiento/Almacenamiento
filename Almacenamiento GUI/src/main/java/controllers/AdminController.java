@@ -27,48 +27,51 @@ import domain.Vote;
 @Controller
 @RequestMapping("/admin")
 public class AdminController extends AbstractController {
-	
+
 	// Services ---------------------------------------------------------------
 
 	@Autowired
 	private VoteService voteService;
 	@Autowired
 	private VotationService votationService;
-	
+
 	// Constructors -----------------------------------------------------------
-	
+
 	public AdminController() {
 		super();
 	}
 
-	// Listing votations----------------------------------------------------------------
-	
+	// Listing
+	// votations----------------------------------------------------------------
+
 	@RequestMapping(value = "/votationList", method = RequestMethod.GET)
 	public ModelAndView votationList() {
 		ModelAndView result;
 		Collection<Votation> votations;
-		
-		votations = votationService.findAllVotationsByMomentDescending();
+
+		votations = votationService.findAll();
 		result = new ModelAndView("admin/votationList");
-		result.addObject("votations", votations);				
-		
+		result.addObject("votations", votations);
+
 		return result;
 	}
-	
-	// Listing votes----------------------------------------------------------------
-	
+
+	// Listing
+	// votes----------------------------------------------------------------
+
 	@RequestMapping(value = "/voteList", method = RequestMethod.GET)
-	public ModelAndView voteList(@RequestParam(required=true) Integer votationId){
+	public ModelAndView voteList(
+			@RequestParam(required = true) Integer votationId) {
 		ModelAndView result;
 		Collection<Vote> votes;
-		
-		votes = voteService.findAllVotesByMomentDescending(votationId);
+		Votation votation = votationService.findOne(votationId);
+
+		votes = voteService.findAll(votationId);
 		result = new ModelAndView("admin/voteList");
 		result.addObject("votes", votes);
+		result.addObject("votation", votation);
 		return result;
-		
+
 	}
-	
-	
-	
+
 }

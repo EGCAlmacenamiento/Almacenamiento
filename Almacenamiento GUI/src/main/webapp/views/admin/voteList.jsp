@@ -16,28 +16,36 @@
 <%@taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles"%>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<%@taglib prefix="security"	uri="http://www.springframework.org/security/tags"%>
+<%@taglib prefix="security"
+	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
 <!-- Listing votes -->
+<div align="center">
+	<security:authorize access="hasRole('ADMIN')">
+		</br>
+		</br>
+		</br>
+		<h2>
+			<jstl:out value="${votation.name}"></jstl:out>
+		</h2>
 
-<security:authorize access="hasRole('ADMIN')">
-<display:table name="votes" id="row" 
-    requestURI="admin/voteList.do" >
-	
-		
-	<spring:message	code="vote.title"  var="title"/>
-	<display:column property="vote" title="${title}" sortable="true"> </display:column>
-	
-	<spring:message	code="vote.location"  var="location"/>
-	<display:column property="location" title="${location}" sortable="true"> </display:column>
-	
-	<spring:message	code="vote.moment"  var="moment"/>
-	<display:column property="moment" title="${moment}" sortable="true"> </display:column>
-					
 
-</display:table>
-</security:authorize>
+		<br />
+		<display:table name="votes" id="row" requestURI="admin/voteList.do">
+
+
+			<spring:message code="vote.title" var="title" />
+			<display:column property="vote" title="${title}" sortable="true">
+			</display:column>
+
+			<spring:message code="vote.zipCode" var="zipCode" />
+			<display:column property="zipCode" title="${zipCode}" sortable="true">
+			</display:column>
+
+		</display:table>
+	</security:authorize>
+</div>
 
 <!-- Action links -->
 

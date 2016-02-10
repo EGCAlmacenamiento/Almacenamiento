@@ -22,27 +22,30 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/welcome")
 public class WelcomeController extends AbstractController {
 
+
 	// Constructors -----------------------------------------------------------
-	
+
 	public WelcomeController() {
 		super();
 	}
-		
-	// Index ------------------------------------------------------------------		
+
+	// Index ------------------------------------------------------------------
 
 	@RequestMapping(value = "/index")
-	public ModelAndView index(@RequestParam(required=false, defaultValue="Acme Supermarket") String name) {
+	public ModelAndView index(
+			@RequestParam(required = false, defaultValue = "Acme Supermarket") String name) {
 		ModelAndView result;
 		SimpleDateFormat formatter;
 		String moment;
-		
+
 		formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 		moment = formatter.format(new Date());
-				
+
 		result = new ModelAndView("welcome/index");
 		result.addObject("name", name);
 		result.addObject("moment", moment);
 
 		return result;
 	}
+
 }

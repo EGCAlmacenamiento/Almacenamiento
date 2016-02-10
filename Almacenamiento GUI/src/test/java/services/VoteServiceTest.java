@@ -35,12 +35,10 @@ public class VoteServiceTest extends AbstractTest {
 
 	@Test
 	public void checkfindAllVotationsByMomentDescending() {
-		System.out
-				.println("Test para comprobar el metodo findAllVotationsByMomentDescending:");
+		System.out.println("Test para comprobar el metodo findAll:");
 		authenticate("admin1");
 		int votationId = 6;
-		Collection<Vote> votes = voteService
-				.findAllVotesByMomentDescending(votationId);
+		Collection<Vote> votes = voteService.findAll(votationId);
 		System.out.println("la lista de votaciones es: " + votes);
 		unauthenticate();
 	}

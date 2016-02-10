@@ -16,11 +16,16 @@
 <%@taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles"%>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<%@taglib prefix="security"	uri="http://www.springframework.org/security/tags"%>
+<%@taglib prefix="security"
+	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
 <jsp:useBean id="date" class="java.util.Date" />
 
 <hr />
 
-<b>Copyright &copy; <fmt:formatDate value="${date}" pattern="yyyy" /> Vote Board, Inc.</b>
+<b><p>
+		Copyright &copy; <a href="http://egcphp-alm1516.rhcloud.com/">EGC
+			Almacenamiento 15/16</a>, All Rights Reserved | Designed by <a
+			target="_blank" href="http://www.styleshout.com/">Styleshout</a>
+	</p></b>

@@ -1,5 +1,0 @@
-# C level
-
-Query 1: The consumers who have placed more orders
-
-select c from Consumer c where c.totalOrders = (select max(c2.totalOrders) from Consumer c2);
